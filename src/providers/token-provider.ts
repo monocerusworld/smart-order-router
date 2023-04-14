@@ -482,6 +482,129 @@ export const USDT_BSC = new Token(
   'USDT'
 );
 
+// FANTOM Tokens
+export const BTC_FANTOM = new Token(
+  ChainId.FANTOM,
+  '0x321162Cd933E2Be498Cd2267a90534A804051b11',
+  8,
+  'BTC',
+  'Bitcoin'
+);
+
+export const DAI_FANTOM = new Token(
+  ChainId.FANTOM,
+  '0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E',
+  18,
+  'DAI',
+  'DAI Stablecoin'
+);
+
+export const ETH_FANTOM = new Token(
+  ChainId.FANTOM,
+  '0x74b23882a30290451A17c44f4F05243b6b58C76d',
+  18,
+  'ETH',
+  'Ethereum'
+);
+
+export const USDC_FANTOM = new Token(
+  ChainId.FANTOM,
+  '0x04068DA6C83AFCFA0e13ba15A6696662335D5B75',
+  6,
+  'USDC',
+  'USD Coin'
+);
+
+export const USDT_FANTOM = new Token(
+  ChainId.FANTOM,
+  '0x049d68029688eAbF473097a2fC38ef61633A3C7A',
+  6,
+  'fUSDT',
+  'Frapped USDT'
+);
+
+// GNOSIS Tokens
+export const BTC_GNOSIS = new Token(
+  ChainId.GNOSIS,
+  '0x8e5bBbb09Ed1ebdE8674Cda39A0c169401db4252',
+  8,
+  'WBTC',
+  'Wrapped BTC on xDai'
+);
+
+export const DAI_GNOSIS = new Token(
+  ChainId.GNOSIS,
+  '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d',
+  18,
+  'WXDAI',
+  'Wrapped XDAI'
+);
+
+export const ETH_GNOSIS = new Token(
+  ChainId.GNOSIS,
+  '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1',
+  18,
+  'WETH',
+  'Wrapped Ether on xDai'
+);
+
+export const USDC_GNOSIS = new Token(
+  ChainId.GNOSIS,
+  '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83',
+  6,
+  'USDC',
+  'USD//C on xDai'
+);
+
+export const USDT_GNOSIS = new Token(
+  ChainId.GNOSIS,
+  '0x4ECaBa5870353805a9F068101A40E0f32ed605C6',
+  6,
+  'USDT',
+  'Tether USD on xDai'
+);
+
+// KLAYTN Tokens
+export const BTC_KLAYTN = new Token(
+  ChainId.KLAYTN,
+  '0x16d0e1fbd024c600ca0380a4c5d57ee7a2ecbf9c',
+  8,
+  'oWBTC',
+  'Orbit Bridge Klaytn Wrapped BTC'
+);
+
+export const DAI_KLAYTN = new Token(
+  ChainId.KLAYTN,
+  '0x5c74070fdea071359b86082bd9f9b3deaafbe32b',
+  18,
+  'KDAI',
+  'Klaytn DAI'
+);
+
+export const ETH_KLAYTN = new Token(
+  ChainId.KLAYTN,
+  '0x34d21b1e550d73cee41151c77f3c73359527a396',
+  18,
+  'oETH',
+  'Orbit Bridge Klaytn Ethereum'
+);
+
+export const USDC_KLAYTN = new Token(
+  ChainId.KLAYTN,
+  '0x754288077d0ff82af7a5317c7cb8c444d421d103',
+  6,
+  'oUSDC',
+  'Orbit Bridge Klaytn USD Coin'
+);
+
+export const USDT_KLAYTN = new Token(
+  ChainId.KLAYTN,
+  '0xcee8faf64bb97a73bb51e115aa89c17ffa8dd167',
+  6,
+  'oUSDT',
+  'Orbit Bridge Klaytn USD Tether'
+);
+
 // Celo Tokens
 export const CELO = new Token(
   ChainId.CELO,

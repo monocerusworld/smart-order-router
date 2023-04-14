@@ -1,6 +1,5 @@
 import { Currency, Ether, NativeCurrency, Token } from '@uniswap/sdk-core';
 
-
 export enum ChainId {
   MAINNET = 1,
   ROPSTEN = 3,
@@ -20,6 +19,8 @@ export enum ChainId {
   GNOSIS = 100,
   MOONBEAM = 1284,
   BSC = 56,
+  KLAYTN = 8217,
+  FANTOM = 250,
 }
 
 // WIP: Gnosis, Moonbeam
@@ -40,6 +41,9 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.CELO_ALFAJORES,
   ChainId.CELO,
   ChainId.BSC,
+  ChainId.KLAYTN,
+  ChainId.FANTOM,
+  ChainId.GNOSIS,
   // Gnosis and Moonbeam don't yet have contracts deployed yet
 ];
 
@@ -112,6 +116,10 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
       return ChainId.GNOSIS;
     case 1284:
       return ChainId.MOONBEAM;
+    case 250:
+      return ChainId.FANTOM;
+    case 8217:
+      return ChainId.KLAYTN;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -136,8 +144,9 @@ export enum ChainName {
   GNOSIS = 'gnosis-mainnet',
   MOONBEAM = 'moonbeam-mainnet',
   BSC = 'bsc-mainnet',
+  KLAYTN = 'klaytn-mainnet',
+  FANTOM = 'fantom-mainnet',
 }
-
 
 export enum NativeCurrencyName {
   // Strings match input for CLI
@@ -146,7 +155,9 @@ export enum NativeCurrencyName {
   CELO = 'CELO',
   GNOSIS = 'XDAI',
   MOONBEAM = 'GLMR',
-  BNB = "BNB",
+  BNB = 'BNB',
+  KLAYTN = 'KLAY',
+  FANTOM = 'FTM',
 }
 export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
   [ChainId.MAINNET]: [
@@ -204,9 +215,7 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
     'ETHER',
     '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   ],
-  [ChainId.POLYGON]: [
-    'MATIC', '0x0000000000000000000000000000000000001010'
-  ],
+  [ChainId.POLYGON]: ['MATIC', '0x0000000000000000000000000000000000001010'],
   [ChainId.POLYGON_MUMBAI]: [
     'MATIC',
     '0x0000000000000000000000000000000000001010',
@@ -215,11 +224,9 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
   [ChainId.CELO_ALFAJORES]: ['CELO'],
   [ChainId.GNOSIS]: ['XDAI'],
   [ChainId.MOONBEAM]: ['GLMR'],
-  [ChainId.BSC]: [
-    'BNB',
-    'BNB',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  ],
+  [ChainId.BSC]: ['BNB', 'BNB', '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'],
+  [ChainId.KLAYTN]: ['KLAY'],
+  [ChainId.FANTOM]: ['FTM'],
 };
 
 export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
@@ -241,6 +248,8 @@ export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.GNOSIS]: NativeCurrencyName.GNOSIS,
   [ChainId.MOONBEAM]: NativeCurrencyName.MOONBEAM,
   [ChainId.BSC]: NativeCurrencyName.BNB,
+  [ChainId.KLAYTN]: NativeCurrencyName.KLAYTN,
+  [ChainId.FANTOM]: NativeCurrencyName.FANTOM,
 };
 
 export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
@@ -279,8 +288,10 @@ export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
       return ChainName.CELO_ALFAJORES;
     case 100:
       return ChainName.GNOSIS;
-    case 1284:
-      return ChainName.MOONBEAM;
+    case 250:
+      return ChainName.FANTOM;
+    case 8217:
+      return ChainName.KLAYTN;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -324,6 +335,12 @@ export const ID_TO_PROVIDER = (id: ChainId): string => {
       return process.env.JSON_RPC_PROVIDER_CELO_ALFAJORES!;
     case ChainId.BSC:
       return process.env.JSON_RPC_PROVIDER_BSC!;
+    case ChainId.GNOSIS:
+      return process.env.JSON_RPC_PROVIDER_GNOSIS!;
+    case ChainId.FANTOM:
+      return process.env.JSON_RPC_PROVIDER_FANTOM!;
+    case ChainId.KLAYTN:
+      return process.env.JSON_RPC_PROVIDER_KLAYTN!;
     default:
       throw new Error(`Chain id: ${id} not supported`);
   }
@@ -449,7 +466,7 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
     '0xe91d153e0b41518a2ce8dd3d7944fa863463a97d',
     18,
     'WXDAI',
-    'Wrapped XDAI on Gnosis'
+    'Wrapped XDAI'
   ),
   [ChainId.MOONBEAM]: new Token(
     ChainId.MOONBEAM,
@@ -457,6 +474,20 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
     18,
     'WGLMR',
     'Wrapped GLMR'
+  ),
+  [ChainId.FANTOM]: new Token(
+    ChainId.FANTOM,
+    '0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83',
+    18,
+    'WFTM',
+    'Wrapped FTM'
+  ),
+  [ChainId.KLAYTN]: new Token(
+    ChainId.KLAYTN,
+    '0x19aac5f612f524b754ca7e7c41cbfa2e981a4432',
+    18,
+    'WKLAY',
+    'Wrapped KLAY'
   ),
 };
 
@@ -584,6 +615,54 @@ class MoonbeamNativeCurrency extends NativeCurrency {
   }
 }
 
+function isFantom(chainId: number): chainId is ChainId.FANTOM {
+  return chainId === ChainId.FANTOM;
+}
+
+class FantomNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId;
+  }
+
+  get wrapped(): Token {
+    if (!isFantom(this.chainId)) throw new Error('Not ftm');
+    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
+    if (nativeCurrency) {
+      return nativeCurrency;
+    }
+    throw new Error(`Does not support this chain ${this.chainId}`);
+  }
+
+  public constructor(chainId: number) {
+    if (!isFantom(chainId)) throw new Error('Not ftm');
+    super(chainId, 18, 'FTM', 'FTM');
+  }
+}
+
+function isKlaytn(chainId: number): chainId is ChainId.KLAYTN {
+  return chainId === ChainId.KLAYTN;
+}
+
+class KlaytnNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId;
+  }
+
+  get wrapped(): Token {
+    if (!isKlaytn(this.chainId)) throw new Error('Not klay');
+    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
+    if (nativeCurrency) {
+      return nativeCurrency;
+    }
+    throw new Error(`Does not support this chain ${this.chainId}`);
+  }
+
+  public constructor(chainId: number) {
+    if (!isKlaytn(chainId)) throw new Error('Not klay');
+    super(chainId, 18, 'KLAY', 'KLAY');
+  }
+}
+
 export class ExtendedEther extends Ether {
   public get wrapped(): Token {
     if (this.chainId in WRAPPED_NATIVE_CURRENCY)
@@ -616,6 +695,10 @@ export function nativeOnChain(chainId: number): NativeCurrency {
     cachedNativeCurrency[chainId] = new MoonbeamNativeCurrency(chainId);
   else if (isBsc(chainId))
     cachedNativeCurrency[chainId] = new BscNativeCurrency(chainId);
+  else if (isFantom(chainId))
+    cachedNativeCurrency[chainId] = new FantomNativeCurrency(chainId);
+  else if (isKlaytn(chainId))
+    cachedNativeCurrency[chainId] = new KlaytnNativeCurrency(chainId);
   else cachedNativeCurrency[chainId] = ExtendedEther.onChain(chainId);
 
   return cachedNativeCurrency[chainId]!;

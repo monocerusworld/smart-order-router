@@ -12,7 +12,7 @@ import {
   Token,
   TradeType,
 } from '@uniswap/sdk-core';
-import { SwapOptions as UniversalRouterSwapOptions } from '@uniswap/universal-router-sdk';
+import { SwapOptions as UniversalRouterSwapOptions } from '@tartz-one/universal-router-sdk';
 import { Route as V2RouteRaw } from '@uniswap/v2-sdk';
 import {
   Pool,

@@ -3,18 +3,29 @@ import { Token } from '@uniswap/sdk-core';
 
 import {
   BTC_BSC,
+  BTC_FANTOM,
+  BTC_GNOSIS,
+  BTC_KLAYTN,
   BUSD_BSC,
   DAI_BSC,
+  DAI_FANTOM,
+  DAI_GNOSIS,
+  DAI_KLAYTN,
   DAI_MAINNET,
   ITokenProvider,
   USDC_BSC,
+  USDC_FANTOM,
+  USDC_GNOSIS,
+  USDC_KLAYTN,
   USDC_MAINNET,
   USDT_BSC,
+  USDT_FANTOM,
+  USDT_GNOSIS,
+  USDT_KLAYTN,
   USDT_MAINNET,
   WBTC_MAINNET,
   WMATIC_POLYGON,
   WMATIC_POLYGON_MUMBAI,
-
 } from '../../providers/token-provider';
 import { ChainId, WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
 
@@ -64,6 +75,27 @@ export const BASES_TO_CHECK_TRADES_AGAINST = (
       USDC_BSC,
       USDT_BSC,
       BTC_BSC,
+    ],
+    [ChainId.FANTOM]: [
+      WRAPPED_NATIVE_CURRENCY[ChainId.FANTOM]!,
+      DAI_FANTOM,
+      USDC_FANTOM,
+      USDT_FANTOM,
+      BTC_FANTOM,
+    ],
+    [ChainId.GNOSIS]: [
+      WRAPPED_NATIVE_CURRENCY[ChainId.GNOSIS]!,
+      DAI_GNOSIS,
+      USDC_GNOSIS,
+      USDT_GNOSIS,
+      BTC_GNOSIS,
+    ],
+    [ChainId.KLAYTN]: [
+      WRAPPED_NATIVE_CURRENCY[ChainId.KLAYTN]!,
+      DAI_KLAYTN,
+      USDC_KLAYTN,
+      USDT_KLAYTN,
+      BTC_KLAYTN,
     ],
   };
 };

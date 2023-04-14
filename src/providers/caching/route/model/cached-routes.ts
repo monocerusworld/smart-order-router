@@ -2,7 +2,12 @@ import { Protocol } from '@uniswap/router-sdk';
 import { Token, TradeType } from '@uniswap/sdk-core';
 import _ from 'lodash';
 
-import { MixedRoute, RouteWithValidQuote, V2Route, V3Route } from '../../../../routers';
+import {
+  MixedRoute,
+  RouteWithValidQuote,
+  V2Route,
+  V3Route,
+} from '../../../../routers';
 import { ChainId } from '../../../../util';
 
 import { CachedRoute } from './cached-route';
@@ -45,18 +50,16 @@ export class CachedRoutes {
    * @param tradeType
    * @param blocksToLive
    */
-  constructor(
-    {
-      routes,
-      chainId,
-      tokenIn,
-      tokenOut,
-      protocolsCovered,
-      blockNumber,
-      tradeType,
-      blocksToLive = 0
-    }: CachedRoutesParams
-  ) {
+  constructor({
+    routes,
+    chainId,
+    tokenIn,
+    tokenOut,
+    protocolsCovered,
+    blockNumber,
+    tradeType,
+    blocksToLive = 0,
+  }: CachedRoutesParams) {
     this.routes = routes;
     this.chainId = chainId;
     this.tokenIn = tokenIn;
@@ -87,12 +90,14 @@ export class CachedRoutes {
     tokenOut: Token,
     protocolsCovered: Protocol[],
     blockNumber: number,
-    tradeType: TradeType,
+    tradeType: TradeType
   ): CachedRoutes | undefined {
     if (routes.length == 0) return undefined;
 
-    const cachedRoutes = _.map(routes, (route: RouteWithValidQuote) =>
-      new CachedRoute({ route: route.route, percent: route.percent })
+    const cachedRoutes = _.map(
+      routes,
+      (route: RouteWithValidQuote) =>
+        new CachedRoute({ route: route.route, percent: route.percent })
     );
 
     return new CachedRoutes({
@@ -102,7 +107,7 @@ export class CachedRoutes {
       tokenOut: tokenOut,
       protocolsCovered: protocolsCovered,
       blockNumber: blockNumber,
-      tradeType: tradeType
+      tradeType: tradeType,
     });
   }
 
@@ -112,6 +117,6 @@ export class CachedRoutes {
    * @param currentBlockNumber
    */
   public notExpired(currentBlockNumber: number): boolean {
-    return (currentBlockNumber - this.blockNumber) <= this.blocksToLive;
+    return currentBlockNumber - this.blockNumber <= this.blocksToLive;
   }
 }

@@ -59,6 +59,14 @@ import {
   WBTC_MOONBEAM,
   WETH9,
   WNATIVE_ON,
+  USDC_FANTOM,
+  USDT_FANTOM,
+
+  USDC_GNOSIS,
+  USDT_GNOSIS,
+
+  USDC_KLAYTN,
+  USDT_KLAYTN,
 } from '../../../../src';
 import { WHALES } from '../../../test-util/whales';
 
@@ -70,8 +78,8 @@ import { Protocol } from '@uniswap/router-sdk';
 import {
   PERMIT2_ADDRESS,
   UNIVERSAL_ROUTER_ADDRESS as UNIVERSAL_ROUTER_ADDRESS_BY_CHAIN,
-} from '@uniswap/universal-router-sdk';
-import { Permit2Permit } from '@uniswap/universal-router-sdk/dist/utils/permit2';
+} from '@tartz-one/universal-router-sdk';
+import { Permit2Permit } from '@tartz-one/universal-router-sdk/dist/utils/permit2';
 import { Pair } from '@uniswap/v2-sdk';
 import { encodeSqrtRatioX96, FeeAmount, Pool } from '@uniswap/v3-sdk';
 import bunyan from 'bunyan';
@@ -2535,6 +2543,9 @@ describe('quote for other networks', () => {
     [ChainId.GNOSIS]: WBTC_GNOSIS,
     [ChainId.MOONBEAM]: WBTC_MOONBEAM,
     [ChainId.BSC]: USDC_BSC,
+    [ChainId.FANTOM]: USDC_FANTOM,
+    [ChainId.GNOSIS]: USDC_GNOSIS,
+    [ChainId.KLAYTN]: USDC_KLAYTN,
   };
   const TEST_ERC20_2: { [chainId in ChainId]: Token } = {
     [ChainId.MAINNET]: DAI_ON(1),
@@ -2555,6 +2566,9 @@ describe('quote for other networks', () => {
     [ChainId.GNOSIS]: USDC_ETHEREUM_GNOSIS,
     [ChainId.MOONBEAM]: WBTC_MOONBEAM,
     [ChainId.BSC]: USDT_BSC,
+    [ChainId.FANTOM]: USDT_FANTOM,
+    [ChainId.GNOSIS]: USDT_GNOSIS,
+    [ChainId.KLAYTN]: USDT_KLAYTN,
   };
 
   // TODO: Find valid pools/tokens on optimistic kovan and polygon mumbai. We skip those tests for now.
@@ -2571,7 +2585,12 @@ describe('quote for other networks', () => {
       c != ChainId.ARBITRUM_GOERLI &&
       c != ChainId.OPTIMISM && /// @dev infura has been having issues with optimism lately
       // Tests are failing https://github.com/Uniswap/smart-order-router/issues/104
-      c != ChainId.CELO_ALFAJORES
+      c != ChainId.CELO_ALFAJORES &&
+      // TODO: re-add BSC tests here once there is liquidity
+      c != ChainId.BSC &&
+      c != ChainId.FANTOM &&
+      c != ChainId.GNOSIS &&
+      c != ChainId.KLAYTN
   )) {
     for (const tradeType of [TradeType.EXACT_INPUT, TradeType.EXACT_OUTPUT]) {
       const erc1 = TEST_ERC20_1[chain];
@@ -2967,4 +2986,408 @@ describe('quote for other networks', () => {
       });
     }
   }
+
+  describe('BSC', () => {
+    const chain = ChainId.BSC;
+    for (const tradeType of [TradeType.EXACT_INPUT, TradeType.EXACT_OUTPUT]) {
+      describe(`${ID_TO_NETWORK_NAME(chain)} ${tradeType} 2xx`, function () {
+        const wrappedNative = WNATIVE_ON(chain);
+
+        let alphaRouter: AlphaRouter;
+
+        beforeAll(async () => {
+          const chainProvider = ID_TO_PROVIDER(chain);
+          const provider = new JsonRpcProvider(chainProvider, chain);
+
+          const multicall2Provider = new UniswapMulticallProvider(
+            chain,
+            provider
+          );
+
+          alphaRouter = new AlphaRouter({
+            chainId: chain,
+            provider,
+            multicall2Provider,
+          });
+        });
+
+        it(`${wrappedNative.symbol} -> USDT`, async () => {
+          const tokenIn = wrappedNative;
+          const tokenOut = USDT_BSC;
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('1', tokenIn)
+              : parseAmount('1', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+
+          // Scope limited for non mainnet network tests to validating the swap
+        });
+
+        it(`USDC -> USDT`, async () => {
+          const tokenIn = USDC_BSC;
+          const tokenOut = USDT_BSC;
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('100', tokenIn)
+              : parseAmount('100', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+        });
+
+        const native = NATIVE_CURRENCY[chain];
+
+        it(`${native} -> USDT`, async () => {
+          const tokenIn = nativeOnChain(chain);
+          const tokenOut = USDT_BSC;
+
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('1', tokenIn)
+              : parseAmount('1', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+        });
+      });
+    }
+  });
+
+  describe('FANTOM', () => {
+    const chain = ChainId.FANTOM;
+    for (const tradeType of [TradeType.EXACT_INPUT, TradeType.EXACT_OUTPUT]) {
+      describe(`${ID_TO_NETWORK_NAME(chain)} ${tradeType} 2xx`, function () {
+        const wrappedNative = WNATIVE_ON(chain);
+
+        let alphaRouter: AlphaRouter;
+
+        beforeAll(async () => {
+          const chainProvider = ID_TO_PROVIDER(chain);
+          const provider = new JsonRpcProvider(chainProvider, chain);
+
+          const multicall2Provider = new UniswapMulticallProvider(
+            chain,
+            provider
+          );
+
+          alphaRouter = new AlphaRouter({
+            chainId: chain,
+            provider,
+            multicall2Provider,
+          });
+        });
+
+        it(`${wrappedNative.symbol} -> USDT`, async () => {
+          const tokenIn = wrappedNative;
+          const tokenOut = USDT_FANTOM;
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('1', tokenIn)
+              : parseAmount('1', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+
+          // Scope limited for non mainnet network tests to validating the swap
+        });
+
+        it(`USDC -> USDT`, async () => {
+          const tokenIn = USDC_FANTOM;
+          const tokenOut = USDT_FANTOM;
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('100', tokenIn)
+              : parseAmount('100', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+        });
+
+        const native = NATIVE_CURRENCY[chain];
+
+        it(`${native} -> USDT`, async () => {
+          const tokenIn = nativeOnChain(chain);
+          const tokenOut = USDT_FANTOM;
+
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('1', tokenIn)
+              : parseAmount('1', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+        });
+      });
+    }
+  });
+
+  describe('GNOSIS', () => {
+    const chain = ChainId.GNOSIS;
+    for (const tradeType of [TradeType.EXACT_INPUT, TradeType.EXACT_OUTPUT]) {
+      describe(`${ID_TO_NETWORK_NAME(chain)} ${tradeType} 2xx`, function () {
+        const wrappedNative = WNATIVE_ON(chain);
+
+        let alphaRouter: AlphaRouter;
+
+        beforeAll(async () => {
+          const chainProvider = ID_TO_PROVIDER(chain);
+          const provider = new JsonRpcProvider(chainProvider, chain);
+
+          const multicall2Provider = new UniswapMulticallProvider(
+            chain,
+            provider
+          );
+
+          alphaRouter = new AlphaRouter({
+            chainId: chain,
+            provider,
+            multicall2Provider,
+          });
+        });
+
+        it(`${wrappedNative.symbol} -> USDT`, async () => {
+          const tokenIn = wrappedNative;
+          const tokenOut = USDT_GNOSIS;
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('1', tokenIn)
+              : parseAmount('1', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+
+          // Scope limited for non mainnet network tests to validating the swap
+        });
+
+        it(`USDC -> USDT`, async () => {
+          const tokenIn = USDC_GNOSIS;
+          const tokenOut = USDT_GNOSIS;
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('100', tokenIn)
+              : parseAmount('100', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+        });
+
+        const native = NATIVE_CURRENCY[chain];
+
+        it(`${native} -> USDT`, async () => {
+          const tokenIn = nativeOnChain(chain);
+          const tokenOut = USDT_GNOSIS;
+
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('1', tokenIn)
+              : parseAmount('1', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+        });
+      });
+    }
+  });
+
+  describe('KLAYTN', () => {
+    const chain = ChainId.KLAYTN;
+    for (const tradeType of [TradeType.EXACT_INPUT, TradeType.EXACT_OUTPUT]) {
+      describe(`${ID_TO_NETWORK_NAME(chain)} ${tradeType} 2xx`, function () {
+        const wrappedNative = WNATIVE_ON(chain);
+
+        let alphaRouter: AlphaRouter;
+
+        beforeAll(async () => {
+          const chainProvider = ID_TO_PROVIDER(chain);
+          const provider = new JsonRpcProvider(chainProvider, chain);
+
+          const multicall2Provider = new UniswapMulticallProvider(
+            chain,
+            provider
+          );
+
+          alphaRouter = new AlphaRouter({
+            chainId: chain,
+            provider,
+            multicall2Provider,
+          });
+        });
+
+        it(`${wrappedNative.symbol} -> USDT`, async () => {
+          const tokenIn = wrappedNative;
+          const tokenOut = USDT_KLAYTN;
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('1', tokenIn)
+              : parseAmount('1', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+
+          // Scope limited for non mainnet network tests to validating the swap
+        });
+
+        it(`USDC -> USDT`, async () => {
+          const tokenIn = USDC_KLAYTN;
+          const tokenOut = USDT_KLAYTN;
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('100', tokenIn)
+              : parseAmount('100', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+        });
+
+        const native = NATIVE_CURRENCY[chain];
+
+        it(`${native} -> USDT`, async () => {
+          const tokenIn = nativeOnChain(chain);
+          const tokenOut = USDT_KLAYTN;
+
+          const amount =
+            tradeType == TradeType.EXACT_INPUT
+              ? parseAmount('1', tokenIn)
+              : parseAmount('1', tokenOut);
+
+          const swap = await alphaRouter.route(
+            amount,
+            getQuoteToken(tokenIn, tokenOut, tradeType),
+            tradeType,
+            undefined,
+            {
+              // @ts-ignore[TS7053] - complaining about switch being non exhaustive
+              ...DEFAULT_ROUTING_CONFIG_BY_CHAIN[chain],
+              protocols: [Protocol.V3, Protocol.V2],
+            }
+          );
+          expect(swap).toBeDefined();
+          expect(swap).not.toBeNull();
+        });
+      });
+    }
+  });
 });
