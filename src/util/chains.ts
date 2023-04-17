@@ -21,6 +21,7 @@ export enum ChainId {
   BSC = 56,
   KLAYTN = 8217,
   FANTOM = 250,
+  AVALANCHE = 43114,
 }
 
 // WIP: Gnosis, Moonbeam
@@ -44,7 +45,8 @@ export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.KLAYTN,
   ChainId.FANTOM,
   ChainId.GNOSIS,
-  // Gnosis and Moonbeam don't yet have contracts deployed yet
+  ChainId.AVALANCHE,
+  ChainId.MOONBEAM
 ];
 
 export const V2_SUPPORTED = [
@@ -120,6 +122,8 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
       return ChainId.FANTOM;
     case 8217:
       return ChainId.KLAYTN;
+    case 43114:
+      return ChainId.AVALANCHE;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -146,6 +150,7 @@ export enum ChainName {
   BSC = 'bsc-mainnet',
   KLAYTN = 'klaytn-mainnet',
   FANTOM = 'fantom-mainnet',
+  AVALANCHE = 'avalanche-mainnet',
 }
 
 export enum NativeCurrencyName {
@@ -158,6 +163,7 @@ export enum NativeCurrencyName {
   BNB = 'BNB',
   KLAYTN = 'KLAY',
   FANTOM = 'FTM',
+  AVALANCHE = 'AVAX',
 }
 export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
   [ChainId.MAINNET]: [
@@ -227,6 +233,7 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
   [ChainId.BSC]: ['BNB', 'BNB', '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'],
   [ChainId.KLAYTN]: ['KLAY'],
   [ChainId.FANTOM]: ['FTM'],
+  [ChainId.AVALANCHE]: ['AVAX'],
 };
 
 export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
@@ -250,6 +257,7 @@ export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.BSC]: NativeCurrencyName.BNB,
   [ChainId.KLAYTN]: NativeCurrencyName.KLAYTN,
   [ChainId.FANTOM]: NativeCurrencyName.FANTOM,
+  [ChainId.AVALANCHE]: NativeCurrencyName.AVALANCHE,
 };
 
 export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
@@ -292,6 +300,10 @@ export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
       return ChainName.FANTOM;
     case 8217:
       return ChainName.KLAYTN;
+    case 43114:
+      return ChainName.AVALANCHE;
+    case 1284:
+      return ChainName.MOONBEAM;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -341,6 +353,10 @@ export const ID_TO_PROVIDER = (id: ChainId): string => {
       return process.env.JSON_RPC_PROVIDER_FANTOM!;
     case ChainId.KLAYTN:
       return process.env.JSON_RPC_PROVIDER_KLAYTN!;
+    case ChainId.AVALANCHE:
+      return process.env.JSON_RPC_PROVIDER_AVALANCHE!;
+    case ChainId.MOONBEAM:
+      return process.env.JSON_RPC_PROVIDER_MOONBEAM!;
     default:
       throw new Error(`Chain id: ${id} not supported`);
   }
@@ -488,6 +504,13 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
     18,
     'WKLAY',
     'Wrapped KLAY'
+  ),
+  [ChainId.AVALANCHE]: new Token(
+    ChainId.AVALANCHE,
+    '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
+    18,
+    'WAVAX',
+    'Wrapped AVAX'
   ),
 };
 
@@ -663,6 +686,30 @@ class KlaytnNativeCurrency extends NativeCurrency {
   }
 }
 
+function isAvalanche(chainId: number): chainId is ChainId.AVALANCHE {
+  return chainId === ChainId.AVALANCHE;
+}
+
+class AvalancheNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId;
+  }
+
+  get wrapped(): Token {
+    if (!isAvalanche(this.chainId)) throw new Error('Not Avalanche');
+    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
+    if (nativeCurrency) {
+      return nativeCurrency;
+    }
+    throw new Error(`Does not support this chain ${this.chainId}`);
+  }
+
+  public constructor(chainId: number) {
+    if (!isAvalanche(chainId)) throw new Error('Not Avalanche');
+    super(chainId, 18, 'AVAX', 'AVAX');
+  }
+}
+
 export class ExtendedEther extends Ether {
   public get wrapped(): Token {
     if (this.chainId in WRAPPED_NATIVE_CURRENCY)
@@ -699,6 +746,8 @@ export function nativeOnChain(chainId: number): NativeCurrency {
     cachedNativeCurrency[chainId] = new FantomNativeCurrency(chainId);
   else if (isKlaytn(chainId))
     cachedNativeCurrency[chainId] = new KlaytnNativeCurrency(chainId);
+  else if (isAvalanche(chainId))
+    cachedNativeCurrency[chainId] = new AvalancheNativeCurrency(chainId);
   else cachedNativeCurrency[chainId] = ExtendedEther.onChain(chainId);
 
   return cachedNativeCurrency[chainId]!;

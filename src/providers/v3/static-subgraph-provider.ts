@@ -38,6 +38,7 @@ import {
   DAI_RINKEBY_1,
   DAI_RINKEBY_2,
   DAI_ROPSTEN,
+  DAI_AVALANCHE,
   ETH_BSC,
   ETH_FANTOM,
   ETH_GNOSIS,
@@ -54,6 +55,7 @@ import {
   USDC_KOVAN,
   USDC_MAINNET,
   USDC_MOONBEAM,
+  USDC_AVALANCHE,
   USDC_OPTIMISM,
   USDC_OPTIMISM_GOERLI,
   USDC_OPTIMISTIC_KOVAN,
@@ -67,6 +69,8 @@ import {
   USDT_GNOSIS,
   USDT_GÖRLI,
   USDT_KLAYTN,
+  USDT_AVALANCHE,
+  USDT_MOONBEAM,
   USDT_KOVAN,
   USDT_MAINNET,
   USDT_OPTIMISM,
@@ -221,10 +225,17 @@ const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     BTC_KLAYTN,
     ETH_KLAYTN,
   ],
+  [ChainId.AVALANCHE]: [
+    WRAPPED_NATIVE_CURRENCY[ChainId.AVALANCHE],
+    DAI_AVALANCHE,
+    USDC_AVALANCHE,
+    USDT_AVALANCHE,
+  ],
   [ChainId.MOONBEAM]: [
     WRAPPED_NATIVE_CURRENCY[ChainId.MOONBEAM],
     DAI_MOONBEAM,
     USDC_MOONBEAM,
+    USDT_MOONBEAM,
     WBTC_MOONBEAM,
   ],
 };
@@ -244,7 +255,7 @@ export class StaticV3SubgraphProvider implements IV3SubgraphProvider {
   constructor(
     private chainId: ChainId,
     private poolProvider: IV3PoolProvider
-  ) {}
+  ) { }
 
   public async getPools(
     tokenIn?: Token,

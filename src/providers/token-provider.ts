@@ -704,6 +704,14 @@ export const USDC_MOONBEAM = new Token(
   'USD Coin bridged using Multichain'
 );
 
+export const USDT_MOONBEAM = new Token(
+  ChainId.MOONBEAM,
+  '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73',
+  6,
+  'USDT',
+  'Tether USD'
+);
+
 export const WGLMR_MOONBEAM = new Token(
   ChainId.MOONBEAM,
   '0xAcc15dC74880C9944775448304B263D191c6077F',
@@ -728,11 +736,53 @@ export const WBTC_MOONBEAM = new Token(
   'Wrapped BTC bridged using Multichain'
 );
 
+
+// Avalanche Tokens
+export const USDT_AVALANCHE = new Token(
+  ChainId.AVALANCHE,
+  '0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7',
+  6,
+  'USDT',
+  'TetherToken'
+);
+export const USDC_AVALANCHE = new Token(
+  ChainId.AVALANCHE,
+  '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
+  6,
+  'USDC',
+  'USD Coin'
+);
+export const WAVAX_AVALANCHE = new Token(
+  ChainId.AVALANCHE,
+  '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
+  18,
+  'WAVAX',
+  'Wrapped AVAX'
+);
+
+export const DAI_AVALANCHE = new Token(
+  ChainId.AVALANCHE,
+  '0xd586E7F844cEa2F87f50152665BCbc2C279D8d70',
+  6,
+  'DAI',
+  'Dai Stablecoin'
+);
+
+export const WBTC_AVALANCHE = new Token(
+  ChainId.AVALANCHE,
+  '0x50b7545627a5162F82A992c33b87aDc75187B218',
+  8,
+  'WBTC',
+  'Wrapped BTC'
+);
+
+
+
 export class TokenProvider implements ITokenProvider {
   constructor(
     private chainId: ChainId,
     protected multicall2Provider: IMulticallProvider
-  ) {}
+  ) { }
 
   public async getTokens(
     _addresses: string[],
@@ -802,10 +852,8 @@ export class TokenProvider implements ITokenProvider {
       }
 
       log.info(
-        `Got token symbol and decimals for ${
-          Object.values(addressToToken).length
-        } out of ${addresses.length} tokens on-chain ${
-          providerConfig ? `as of: ${providerConfig?.blockNumber}` : ''
+        `Got token symbol and decimals for ${Object.values(addressToToken).length
+        } out of ${addresses.length} tokens on-chain ${providerConfig ? `as of: ${providerConfig?.blockNumber}` : ''
         }`
       );
     }
@@ -858,6 +906,8 @@ export const DAI_ON = (chainId: ChainId): Token => {
       return DAI_CELO_ALFAJORES;
     case ChainId.MOONBEAM:
       return DAI_MOONBEAM;
+    case ChainId.AVALANCHE:
+      return DAI_AVALANCHE;
     case ChainId.BSC:
       return DAI_BSC;
     default:
@@ -889,6 +939,10 @@ export const USDT_ON = (chainId: ChainId): Token => {
       return USDT_ARBITRUM_RINKEBY;
     case ChainId.BSC:
       return USDT_BSC;
+    case ChainId.MOONBEAM:
+      return USDT_MOONBEAM;
+    case ChainId.AVALANCHE:
+      return USDT_AVALANCHE;
     default:
       throw new Error(`Chain id: ${chainId} not supported`);
   }
@@ -926,6 +980,8 @@ export const USDC_ON = (chainId: ChainId): Token => {
       return USDC_ETHEREUM_GNOSIS;
     case ChainId.MOONBEAM:
       return USDC_MOONBEAM;
+    case ChainId.AVALANCHE:
+      return USDC_AVALANCHE;
     case ChainId.BSC:
       return USDC_BSC;
     default:

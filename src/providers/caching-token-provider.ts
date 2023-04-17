@@ -31,6 +31,7 @@ import {
   DAI_POLYGON_MUMBAI,
   DAI_RINKEBY_1,
   DAI_RINKEBY_2,
+  DAI_AVALANCHE,
   ETH_BSC,
   ETH_FANTOM,
   ETH_GNOSIS,
@@ -47,11 +48,13 @@ import {
   USDC_GNOSIS,
   USDC_KLAYTN,
   USDC_MAINNET,
-  USDC_MOONBEAM,
   USDC_OPTIMISM,
   USDC_OPTIMISM_GOERLI,
   USDC_OPTIMISTIC_KOVAN,
   USDC_POLYGON,
+  USDC_AVALANCHE,
+  USDC_MOONBEAM,
+  USDT_AVALANCHE,
   USDT_ARBITRUM,
   USDT_ARBITRUM_RINKEBY,
   USDT_BSC,
@@ -155,6 +158,12 @@ export const CACHE_SEED_TOKENS: {
     WXDAI: WRAPPED_NATIVE_CURRENCY[ChainId.GNOSIS],
     USDC_ETHEREUM_GNOSIS: USDC_ETHEREUM_GNOSIS,
   },
+  [ChainId.AVALANCHE]: {
+    WAVAX: WRAPPED_NATIVE_CURRENCY[ChainId.AVALANCHE],
+    DAI: DAI_AVALANCHE,
+    USDC: USDC_AVALANCHE,
+    USDT: USDT_AVALANCHE,
+  },
   [ChainId.MOONBEAM]: {
     USDC: USDC_MOONBEAM,
     DAI: DAI_MOONBEAM,
@@ -215,7 +224,7 @@ export class CachingTokenProviderWithFallback implements ITokenProvider {
     private tokenCache: ICache<Token>,
     protected primaryTokenProvider: ITokenProvider,
     protected fallbackTokenProvider?: ITokenProvider
-  ) {}
+  ) { }
 
   public async getTokens(_addresses: string[]): Promise<TokenAccessor> {
     const seedTokens = CACHE_SEED_TOKENS[this.chainId];
@@ -254,12 +263,10 @@ export class CachingTokenProviderWithFallback implements ITokenProvider {
 
     log.info(
       { addressesToFindInPrimary },
-      `Found ${addresses.length - addressesToFindInPrimary.length} out of ${
-        addresses.length
-      } tokens in local cache. ${
-        addressesToFindInPrimary.length > 0
-          ? `Checking primary token provider for ${addressesToFindInPrimary.length} tokens`
-          : ``
+      `Found ${addresses.length - addressesToFindInPrimary.length} out of ${addresses.length
+      } tokens in local cache. ${addressesToFindInPrimary.length > 0
+        ? `Checking primary token provider for ${addressesToFindInPrimary.length} tokens`
+        : ``
       }
       `
     );
@@ -286,12 +293,10 @@ export class CachingTokenProviderWithFallback implements ITokenProvider {
 
       log.info(
         { addressesToFindInSecondary },
-        `Found ${
-          addressesToFindInPrimary.length - addressesToFindInSecondary.length
-        } tokens in primary. ${
-          this.fallbackTokenProvider
-            ? `Checking secondary token provider for ${addressesToFindInSecondary.length} tokens`
-            : `No fallback token provider specified. About to return.`
+        `Found ${addressesToFindInPrimary.length - addressesToFindInSecondary.length
+        } tokens in primary. ${this.fallbackTokenProvider
+          ? `Checking secondary token provider for ${addressesToFindInSecondary.length} tokens`
+          : `No fallback token provider specified. About to return.`
         }`
       );
     }

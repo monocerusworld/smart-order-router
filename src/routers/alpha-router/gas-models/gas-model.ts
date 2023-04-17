@@ -20,6 +20,7 @@ import {
   DAI_RINKEBY_1,
   DAI_RINKEBY_2,
   DAI_ROPSTEN,
+  DAI_AVALANCHE,
   USDC_ARBITRUM,
   USDC_ARBITRUM_GOERLI,
   USDC_BSC,
@@ -36,6 +37,8 @@ import {
   USDC_OPTIMISTIC_KOVAN,
   USDC_POLYGON,
   USDC_ROPSTEN,
+  USDC_AVALANCHE,
+  USDT_AVALANCHE,
   USDT_ARBITRUM,
   USDT_ARBITRUM_RINKEBY,
   USDT_BSC,
@@ -97,6 +100,7 @@ export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = {
   [ChainId.FANTOM]: [DAI_FANTOM, USDC_FANTOM, USDT_FANTOM],
   [ChainId.GNOSIS]: [DAI_GNOSIS, USDC_GNOSIS, USDT_GNOSIS],
   [ChainId.KLAYTN]: [DAI_KLAYTN, USDC_KLAYTN, USDT_KLAYTN],
+  [ChainId.AVALANCHE]: [DAI_AVALANCHE, USDC_AVALANCHE, USDT_AVALANCHE],
 };
 
 export type L1ToL2GasCosts = {
@@ -113,8 +117,8 @@ export type BuildOnChainGasModelFactoryType = {
   quoteToken: Token;
   v2poolProvider: IV2PoolProvider;
   l2GasDataProvider?:
-    | IL2GasDataProvider<OptimismGasData>
-    | IL2GasDataProvider<ArbitrumGasData>;
+  | IL2GasDataProvider<OptimismGasData>
+  | IL2GasDataProvider<ArbitrumGasData>;
 };
 
 export type BuildV2GasModelFactoryType = {
