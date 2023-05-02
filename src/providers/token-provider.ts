@@ -722,8 +722,8 @@ export const WGLMR_MOONBEAM = new Token(
 
 export const DAI_MOONBEAM = new Token(
   ChainId.MOONBEAM,
-  '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b',
-  6,
+  '0x765277EebeCA2e31912C9946eAe1021199B39C61',
+  18,
   'DAI',
   'Dai on moonbeam bridged using Multichain'
 );
@@ -763,7 +763,7 @@ export const WAVAX_AVALANCHE = new Token(
 export const DAI_AVALANCHE = new Token(
   ChainId.AVALANCHE,
   '0xd586E7F844cEa2F87f50152665BCbc2C279D8d70',
-  6,
+  18,
   'DAI',
   'Dai Stablecoin'
 );

@@ -1,6 +1,6 @@
 {
   "name": "@tartz-one/smart-order-router",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Tartz Smart Order Router",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
