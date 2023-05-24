@@ -62,15 +62,15 @@ const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
   [ChainId.BSC]:
     'https://api.thegraph.com/subgraphs/name/ilyamk/uniswap-v3---bnb-chain',
   [ChainId.FANTOM]:
-    'https://api.thegraph.com/subgraphs/name/pullstacker/v3-fantom',
+    'https://api.thegraph.com/subgraphs/name/tartz-one/v3-fantom',
   [ChainId.GNOSIS]:
-    'https://api.thegraph.com/subgraphs/name/pullstacker/v3-gnosis',
+    'https://api.thegraph.com/subgraphs/name/tartz-one/v3-gnosis',
   [ChainId.KLAYTN]:
-    'https://api.thegraph.com/subgraphs/name/pullstacker/v3-klaytn',
+    'https://api.thegraph.com/subgraphs/name/tartz-one/v3-klaytn',
   [ChainId.AVALANCHE]:
-    'https://api.thegraph.com/subgraphs/name/pullstacker/v3-avalanche',
+    'https://api.thegraph.com/subgraphs/name/tartz-one/v3-avalanche',
   [ChainId.MOONBEAM]:
-    'https://api.thegraph.com/subgraphs/name/pullstacker/v3-moonbeam',
+    'https://api.thegraph.com/subgraphs/name/tartz-one/v3-moonbeam',
 };
 
 const PAGE_SIZE = 1000; // 1k is max possible query size from subgraph.
