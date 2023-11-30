@@ -10,13 +10,14 @@ import {
   V2SubgraphPool,
 } from '../../../providers';
 import {
+  ITokenProvider,
   USDC_MAINNET,
   USDC_MANTA,
   USDC_MANTA_TESTNET,
   USDT_MAINNET,
   USDT_MANTA,
   USDT_MANTA_TESTNET,
-  WMANTA_MANTA_TESTNET
+  WMANTA_MANTA_TESTNET,
 } from '../../../providers/token-provider';
 import {
   IV2PoolProvider,
