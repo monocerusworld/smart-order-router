@@ -1,7 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { CondensedAddLiquidityOptions, MixedRouteSDK, Protocol, Trade } from '@uniswap/router-sdk';
 import { Currency, Fraction, Percent, Token, TradeType } from '@uniswap/sdk-core';
-import { SwapOptions as UniversalRouterSwapOptions } from '@tartz-one/universal-router-sdk';
+import { SwapOptions as UniversalRouterSwapOptions } from '@monocerus/universal-router-sdk';
 import { Route as V2RouteRaw } from '@uniswap/v2-sdk';
 import { Pool, Position, MethodParameters as SDKMethodParameters, Route as V3RouteRaw } from '@uniswap/v3-sdk';
 import { SimulationStatus } from '../providers';

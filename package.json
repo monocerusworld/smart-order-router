@@ -1,13 +1,13 @@
 {
-  "name": "@tartz-one/smart-order-router",
-  "version": "2.0.11",
-  "description": "Tartz Smart Order Router",
+  "name": "@monocerus/smart-order-router",
+  "version": "0.0.1",
+  "description": "Monocerus Smart Order Router",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tartz-one/smart-order-router.git"
+    "url": "https://github.com/monocerusworld/smart-order-router.git"
   },
   "license": "GPL",
   "keywords": [],
@@ -37,7 +37,7 @@
     "@uniswap/swap-router-contracts": "^1.3.0",
     "@uniswap/token-lists": "^1.0.0-beta.25",
     "@uniswap/universal-router": "^1.0.1",
-    "@tartz-one/universal-router-sdk": "2.0.7",
+    "@monocerus/universal-router-sdk": "0.0.1",
     "@uniswap/v2-sdk": "^3.0.1",
     "@uniswap/v3-sdk": "^3.7.0",
     "async-retry": "^1.3.1",
