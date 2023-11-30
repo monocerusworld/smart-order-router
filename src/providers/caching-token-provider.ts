@@ -6,10 +6,10 @@ import { ChainId, log, WRAPPED_NATIVE_CURRENCY } from '../util';
 import { ICache } from './cache';
 import {
   USDC_MAINNET,
-  USDT_MAINNET,
   USDC_MANTA,
-  USDT_MANTA,
   USDC_MANTA_TESTNET,
+  USDT_MAINNET,
+  USDT_MANTA,
   USDT_MANTA_TESTNET,
 } from './token-provider';
 

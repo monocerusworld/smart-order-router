@@ -9,10 +9,10 @@ import { ChainId, WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
 import { log } from '../../util/log';
 import {
   USDC_MAINNET,
-  USDT_MAINNET,
   USDC_MANTA,
-  USDT_MANTA,
   USDC_MANTA_TESTNET,
+  USDT_MAINNET,
+  USDT_MANTA,
   USDT_MANTA_TESTNET,
   WMANTA_MANTA_TESTNET,
 } from '../token-provider';

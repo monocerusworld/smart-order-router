@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Protocol } from '@uniswap/router-sdk';
 import { Token, TradeType } from '@uniswap/sdk-core';
 import { FeeAmount } from '@uniswap/v3-sdk';
@@ -10,10 +11,10 @@ import {
 } from '../../../providers';
 import {
   USDC_MAINNET,
-  USDT_MAINNET,
   USDC_MANTA,
-  USDT_MANTA,
   USDC_MANTA_TESTNET,
+  USDT_MAINNET,
+  USDT_MANTA,
   USDT_MANTA_TESTNET,
   WMANTA_MANTA_TESTNET
 } from '../../../providers/token-provider';

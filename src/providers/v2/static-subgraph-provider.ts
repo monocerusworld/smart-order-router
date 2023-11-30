@@ -7,10 +7,6 @@ import { log } from '../../util/log';
 import {
   USDC_MAINNET,
   USDT_MAINNET,
-  USDC_MANTA,
-  USDT_MANTA,
-  USDC_MANTA_TESTNET,
-  USDT_MANTA_TESTNET,
 } from '../token-provider';
 
 import { IV2SubgraphProvider, V2SubgraphPool } from './subgraph-provider';

@@ -3,10 +3,10 @@ import { Token } from '@uniswap/sdk-core';
 
 import {
   USDC_MAINNET,
-  USDT_MAINNET,
   USDC_MANTA,
-  USDT_MANTA,
   USDC_MANTA_TESTNET,
+  USDT_MAINNET,
+  USDT_MANTA,
   USDT_MANTA_TESTNET,
 } from '../../providers/token-provider';
 import { ChainId, WRAPPED_NATIVE_CURRENCY } from '../../util/chains';

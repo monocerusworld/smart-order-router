@@ -280,9 +280,6 @@ export abstract class BaseCommand extends Command {
         new NodeCache({ stdTTL: 15, useClones: true })
       );
 
-      // const useDefaultQuoteProvider =
-      //   chainId != ChainId.ARBITRUM_ONE && chainId != ChainId.ARBITRUM_RINKEBY;
-
       const v3PoolProvider = new CachingV3PoolProvider(
         chainId,
         new V3PoolProvider(chainId, multicall2Provider),
@@ -299,7 +296,7 @@ export abstract class BaseCommand extends Command {
         v2PoolProvider,
         v3PoolProvider,
         provider,
-        { [ChainId.ARBITRUM_ONE]: 1 }
+        { [ChainId.MAINNET]: 1 }
       );
 
       const ethEstimateGasSimulator = new EthEstimateGasSimulator(
