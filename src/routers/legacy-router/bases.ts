@@ -2,6 +2,7 @@
 import { Token } from '@uniswap/sdk-core';
 
 import {
+  ITokenProvider,
   USDC_MAINNET,
   USDC_MANTA,
   USDC_MANTA_TESTNET,
@@ -125,7 +126,7 @@ export const CUSTOM_BASES = async (
         tokenProvider,
         ChainId.MAINNET,
         '0xd46ba6d942050d489dbd938a2c909a5d5039a161',
-        DAI_MAINNET.address
+        USDC_MAINNET.address
       )),
       ...(await getBasePairByAddress(
         tokenProvider,

@@ -14,7 +14,6 @@ import {
   CacheMode,
   CachingTokenListProvider,
   CurrencyAmount,
-  DAI_MAINNET as DAI,
   ETHGasStationInfoProvider,
   FallbackTenderlySimulator,
   MixedRoute,

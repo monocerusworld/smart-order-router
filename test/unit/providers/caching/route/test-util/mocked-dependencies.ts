@@ -3,11 +3,10 @@ import { Protocol } from '@uniswap/router-sdk';
 import { TradeType } from '@uniswap/sdk-core';
 import { Pool } from '@uniswap/v3-sdk';
 import sinon from 'sinon';
-import { ChainId, DAI_MAINNET, USDC_MAINNET, V3Route, V3RouteWithValidQuote } from '../../../../../../build/main';
+import { ChainId, USDC_MAINNET, V3Route, V3RouteWithValidQuote } from '../../../../../../build/main';
 import {
   CachedRoutes,
   CurrencyAmount,
-  DAI_MAINNET as DAI,
   IGasModel,
   USDC_MAINNET as USDC,
   V3PoolProvider
@@ -59,7 +58,7 @@ export function getMockedV3PoolProvider(): V3PoolProvider {
 }
 
 export function getV3RouteWithValidQuoteStub(): V3RouteWithValidQuote {
-  const route = new V3Route([USDC_DAI_MEDIUM], USDC_MAINNET, DAI_MAINNET);
+  const route = new V3Route([USDC_DAI_MEDIUM], USDC_MAINNET);
 
   return new V3RouteWithValidQuote({
     amount: CurrencyAmount.fromRawAmount(USDC, 100),

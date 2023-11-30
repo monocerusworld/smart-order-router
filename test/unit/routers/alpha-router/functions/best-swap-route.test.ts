@@ -8,7 +8,6 @@ import sinon from 'sinon';
 import {
   ChainId,
   CurrencyAmount,
-  DAI_MAINNET,
   IGasModel,
   RouteWithValidQuote,
   USDC_MAINNET as USDC,
@@ -768,7 +767,6 @@ describe('get best swap route', () => {
           JSBI.multiply(JSBI.BigInt(10), JSBI.BigInt(hops))
         ),
         gasCostInUSD: CurrencyAmount.fromRawAmount(
-          DAI_MAINNET,
           JSBI.multiply(JSBI.BigInt(10), JSBI.BigInt(hops))
         ),
       };

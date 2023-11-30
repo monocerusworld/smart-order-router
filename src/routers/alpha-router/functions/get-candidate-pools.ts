@@ -299,10 +299,7 @@ export async function getV3CandidatePools({
       WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET]?.symbol &&
       tokenOut.symbol != 'WETH' &&
       tokenOut.symbol != 'WETH9' &&
-      tokenOut.symbol != 'ETH') ||
-    (WRAPPED_NATIVE_CURRENCY[chainId]?.symbol == WMATIC_POLYGON.symbol &&
-      tokenOut.symbol != 'MATIC' &&
-      tokenOut.symbol != 'WMATIC')
+      tokenOut.symbol != 'ETH')
   ) {
     top2EthQuoteTokenPool = _(subgraphPoolsSorted)
       .filter((subgraphPool) => {
