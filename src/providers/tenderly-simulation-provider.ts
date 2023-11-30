@@ -18,14 +18,13 @@ import {
 } from '../util/gas-factory-helpers';
 
 import { EthEstimateGasSimulator } from './eth-estimate-gas-provider';
-import { ProviderConfig } from './provider';
 import {
   SimulationResult,
   SimulationStatus,
   Simulator,
 } from './simulation-provider';
 import { IV2PoolProvider } from './v2/pool-provider';
-import { ArbitrumGasData, MantaGasData } from './v3/gas-data-provider';
+import { MantaGasData } from './v3/gas-data-provider';
 import { IV3PoolProvider } from './v3/pool-provider';
 
 export type TenderlyResponseUniversalRouter = {
@@ -74,8 +73,7 @@ export class FallbackTenderlySimulator extends Simulator {
     fromAddress: string,
     swapOptions: SwapOptions,
     swapRoute: SwapRoute,
-    l2GasData?: ArbitrumGasData | MantaGasData,
-    providerConfig?: ProviderConfig
+    l2GasData?: MantaGasData
   ): Promise<SwapRoute> {
     // Make call to eth estimate gas if possible
     // For erc20s, we must check if the token allowance is sufficient
@@ -114,9 +112,7 @@ export class FallbackTenderlySimulator extends Simulator {
         fromAddress,
         swapOptions,
         swapRoute,
-        l2GasData,
-        providerConfig
-      );
+        l2GasData      );
     } catch (err) {
       log.info({ err: err }, 'Failed to simulate via Tenderly');
       return { ...swapRoute, simulationStatus: SimulationStatus.Failed };
@@ -158,8 +154,7 @@ export class TenderlySimulator extends Simulator {
     fromAddress: string,
     swapOptions: SwapOptions,
     swapRoute: SwapRoute,
-    l2GasData?: ArbitrumGasData | MantaGasData,
-    providerConfig?: ProviderConfig
+    l2GasData?: MantaGasData
   ): Promise<SwapRoute> {
     const currencyIn = swapRoute.trade.inputAmount.currency;
     const tokenIn = currencyIn.wrapped;
@@ -184,7 +179,7 @@ export class TenderlySimulator extends Simulator {
       'Simulating transaction on Tenderly'
     );
 
-    const blockNumber = await providerConfig?.blockNumber;
+    //const blockNumber = await providerConfig?.blockNumber;
     let estimatedGasUsed: BigNumber;
     const estimateMultiplier =
       this.overrideEstimateMultiplier[chainId] ?? DEFAULT_ESTIMATE_MULTIPLIER;

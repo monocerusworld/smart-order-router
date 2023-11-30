@@ -9,5 +9,4 @@ coverage
 yarn.lock
 types
 types/*
-.env
 cache/

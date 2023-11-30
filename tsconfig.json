@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "incremental": true,
     "target": "es2017",
     "outDir": "build/main",
@@ -35,5 +36,6 @@
     "types": ["node", "jest"]
   },
   "include": ["src/index.ts"],
-  "compileOnSave": false
+  "compileOnSave": false,
+  "baseUrl": "."
 }

@@ -7,6 +7,7 @@ import { ChainId, log, WRAPPED_NATIVE_CURRENCY } from '../util';
 import { ICache } from './cache';
 import {
   ITokenProvider,
+  TokenAccessor,
   USDC_MAINNET,
   USDC_MANTA,
   USDC_MANTA_TESTNET,

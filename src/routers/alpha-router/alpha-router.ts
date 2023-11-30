@@ -1337,7 +1337,7 @@ export class AlphaRouter
       protocols.includes(Protocol.MIXED) ||
       (noProtocolsSpecified && v2SupportedInChain);
     const mixedProtocolAllowed =
-      [ChainId.MAINNET, ChainId.GÖRLI].includes(this.chainId) &&
+      [ChainId.MAINNET, ChainId.MANTA, ChainId.MANTA_TESTNET].includes(this.chainId) &&
       tradeType === TradeType.EXACT_INPUT;
 
     const quotePromises: Promise<GetQuotesResult>[] = [];
