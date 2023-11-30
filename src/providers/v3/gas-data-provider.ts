@@ -19,21 +19,21 @@ import { IMulticallProvider } from '../multicall-provider';
  */
 export interface IL2GasDataProvider<T> {
   /**
-   * Gets the data constants needed to calculate the l1 security fee on L2s like arbitrum and optimism.
+   * Gets the data constants needed to calculate the l1 security fee on L2s like arbitrum and Manta.
    * @returns An object that includes the data necessary for the off chain estimations.
    */
   getGasData(): Promise<T>;
 }
 
-export type OptimismGasData = {
+export type MantaGasData = {
   l1BaseFee: BigNumber;
   scalar: BigNumber;
   decimals: BigNumber;
   overhead: BigNumber;
 };
 
-export class OptimismGasDataProvider
-  implements IL2GasDataProvider<OptimismGasData>
+export class MantaGasDataProvider
+  implements IL2GasDataProvider<MantaGasData>
 {
   protected gasOracleAddress: string;
 
@@ -42,18 +42,18 @@ export class OptimismGasDataProvider
     protected multicall2Provider: IMulticallProvider,
     gasPriceAddress?: string
   ) {
-    if (chainId != ChainId.OPTIMISM && chainId != ChainId.OPTIMISTIC_KOVAN) {
-      throw new Error('This data provider is used only on optimism networks.');
+    if (chainId != ChainId.MANTA && chainId != ChainId.MANTA_TESTNET) {
+      throw new Error('This data provider is used only on Manta networks.');
     }
     this.gasOracleAddress = gasPriceAddress ?? OVM_GASPRICE_ADDRESS;
   }
 
   /**
-   * Gets the data constants needed to calculate the l1 security fee on Optimism.
-   * @returns An OptimismGasData object that includes the l1BaseFee,
+   * Gets the data constants needed to calculate the l1 security fee on Manta.
+   * @returns An MantaGasData object that includes the l1BaseFee,
    * scalar, decimals, and overhead values.
    */
-  public async getGasData(): Promise<OptimismGasData> {
+  public async getGasData(): Promise<MantaGasData> {
     const funcNames = ['l1BaseFee', 'scalar', 'decimals', 'overhead'];
     const tx =
       await this.multicall2Provider.callMultipleFunctionsOnSameContract<
@@ -73,10 +73,10 @@ export class OptimismGasDataProvider
     ) {
       log.info(
         { results: tx.results },
-        'Failed to get gas constants data from the optimism gas oracle'
+        'Failed to get gas constants data from the Manta gas oracle'
       );
       throw new Error(
-        'Failed to get gas constants data from the optimism gas oracle'
+        'Failed to get gas constants data from the Manta gas oracle'
       );
     }
 

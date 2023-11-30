@@ -26,9 +26,9 @@ type ChainTokenList = {
 
 const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.MAINNET]: [
-    WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET]!, \
+    WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET]!,
     USDC_MAINNET,
-    USDT_MAINNET, \
+    USDT_MAINNET,
   ],
   [ChainId.MANTA]: [
     WRAPPED_NATIVE_CURRENCY[ChainId.MANTA],

@@ -259,19 +259,8 @@ export async function calculateGasUsed(
   let l2toL1FeeInWei = BigNumber.from(0);
   if (
     [
-      ChainId.ARBITRUM_ONE,
-      ChainId.ARBITRUM_RINKEBY,
-      ChainId.ARBITRUM_GOERLI,
-    ].includes(chainId)
-  ) {
-    l2toL1FeeInWei = calculateArbitrumToL1FeeFromCalldata(
-      route.methodParameters!.calldata,
-      l2GasData as ArbitrumGasData
-    )[1];
-  } else if (
-    [
       ChainId.MANTA,
-      ChainId.MANTA_TESTNET, \
+      ChainId.MANTA_TESTNET,
     ].includes(chainId)
   ) {
     l2toL1FeeInWei = calculateMantaToL1FeeFromCalldata(
