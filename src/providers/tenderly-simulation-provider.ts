@@ -25,7 +25,7 @@ import {
   Simulator,
 } from './simulation-provider';
 import { IV2PoolProvider } from './v2/pool-provider';
-import { ArbitrumGasData, OptimismGasData } from './v3/gas-data-provider';
+import { ArbitrumGasData, MantaGasData } from './v3/gas-data-provider';
 import { IV3PoolProvider } from './v3/pool-provider';
 
 export type TenderlyResponseUniversalRouter = {
@@ -74,7 +74,7 @@ export class FallbackTenderlySimulator extends Simulator {
     fromAddress: string,
     swapOptions: SwapOptions,
     swapRoute: SwapRoute,
-    l2GasData?: ArbitrumGasData | OptimismGasData,
+    l2GasData?: ArbitrumGasData | MantaGasData,
     providerConfig?: ProviderConfig
   ): Promise<SwapRoute> {
     // Make call to eth estimate gas if possible
@@ -158,7 +158,7 @@ export class TenderlySimulator extends Simulator {
     fromAddress: string,
     swapOptions: SwapOptions,
     swapRoute: SwapRoute,
-    l2GasData?: ArbitrumGasData | OptimismGasData,
+    l2GasData?: ArbitrumGasData | MantaGasData,
     providerConfig?: ProviderConfig
   ): Promise<SwapRoute> {
     const currencyIn = swapRoute.trade.inputAmount.currency;

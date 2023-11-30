@@ -5,12 +5,12 @@ import _ from 'lodash';
 import { ChainId, WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
 import { log } from '../../util/log';
 import {
-  DAI_MAINNET,
-  DAI_RINKEBY_1,
-  DAI_RINKEBY_2,
   USDC_MAINNET,
   USDT_MAINNET,
-  WBTC_MAINNET,
+  USDC_MANTA,
+  USDT_MANTA,
+  USDC_MANTA_TESTNET,
+  USDT_MANTA_TESTNET,
 } from '../token-provider';
 
 import { IV2SubgraphProvider, V2SubgraphPool } from './subgraph-provider';
@@ -22,37 +22,11 @@ type ChainTokenList = {
 const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.MAINNET]: [
     WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET]!,
-    DAI_MAINNET,
     USDC_MAINNET,
     USDT_MAINNET,
-    WBTC_MAINNET,
   ],
-  [ChainId.ROPSTEN]: [WRAPPED_NATIVE_CURRENCY[ChainId.ROPSTEN]!],
-  [ChainId.RINKEBY]: [
-    WRAPPED_NATIVE_CURRENCY[ChainId.RINKEBY]!,
-    DAI_RINKEBY_1,
-    DAI_RINKEBY_2,
-  ],
-  [ChainId.GÖRLI]: [WRAPPED_NATIVE_CURRENCY[ChainId.GÖRLI]!],
-  [ChainId.KOVAN]: [WRAPPED_NATIVE_CURRENCY[ChainId.KOVAN]!],
-  //v2 not deployed on [optimism, arbitrum, polygon, celo, gnosis, moonbeam] and their testnets
-  [ChainId.OPTIMISM]: [],
-  [ChainId.ARBITRUM_ONE]: [],
-  [ChainId.ARBITRUM_RINKEBY]: [],
-  [ChainId.ARBITRUM_GOERLI]: [],
-  [ChainId.OPTIMISM_GOERLI]: [],
-  [ChainId.OPTIMISTIC_KOVAN]: [],
-  [ChainId.POLYGON]: [],
-  [ChainId.POLYGON_MUMBAI]: [],
-  [ChainId.CELO]: [],
-  [ChainId.CELO_ALFAJORES]: [],
-  [ChainId.GNOSIS]: [],
-  [ChainId.MOONBEAM]: [],
-  [ChainId.BSC]: [],
-  [ChainId.FANTOM]: [],
-  [ChainId.GNOSIS]: [],
-  [ChainId.KLAYTN]: [],
-  [ChainId.AVALANCHE]: [],
+  [ChainId.MANTA_TESTNET]: [],
+  [ChainId.MANTA]: [],
 };
 
 /**

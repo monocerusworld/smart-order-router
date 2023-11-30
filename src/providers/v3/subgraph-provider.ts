@@ -47,30 +47,10 @@ export const printV2SubgraphPool = (s: V2SubgraphPool) =>
 const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
   [ChainId.MAINNET]:
     'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
-  [ChainId.RINKEBY]:
-    'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-rinkeby',
-  [ChainId.OPTIMISM]:
-    'https://api.thegraph.com/subgraphs/name/ianlapham/optimism-post-regenesis',
-  [ChainId.ARBITRUM_ONE]:
-    'https://api.thegraph.com/subgraphs/name/ianlapham/arbitrum-minimal',
-  [ChainId.POLYGON]:
-    'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon',
-  [ChainId.CELO]:
-    'https://api.thegraph.com/subgraphs/name/jesse-sawa/uniswap-celo',
-  [ChainId.GÖRLI]:
-    'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-gorli',
-  [ChainId.BSC]:
-    'https://api.thegraph.com/subgraphs/name/ilyamk/uniswap-v3---bnb-chain',
-  [ChainId.FANTOM]:
-    'https://api.thegraph.com/subgraphs/name/tartz-one/v3-fantom',
-  [ChainId.GNOSIS]:
-    'https://api.thegraph.com/subgraphs/name/tartz-one/v3-gnosis',
-  [ChainId.KLAYTN]:
-    'https://api.thegraph.com/subgraphs/name/tartz-one/v3-klaytn',
-  [ChainId.AVALANCHE]:
-    'https://api.thegraph.com/subgraphs/name/tartz-one/v3-avalanche',
-  [ChainId.MOONBEAM]:
-    'https://api.thegraph.com/subgraphs/name/tartz-one/v3-moonbeam',
+  [ChainId.MANTA]:
+    'https://api.thegraph.com/subgraphs/name/monocerus/v3-manta',
+  [ChainId.MANTA_TESTNET]:
+    'https://api.thegraph.com/subgraphs/name/monocerus/v3-manta-testnet',
 };
 
 const PAGE_SIZE = 1000; // 1k is max possible query size from subgraph.

@@ -9,8 +9,7 @@ import {
   WRAPPED_NATIVE_CURRENCY,
 } from '../../../..';
 import {
-  ArbitrumGasData,
-  OptimismGasData,
+  MantaGasData,
 } from '../../../../providers/v3/gas-data-provider';
 import { ChainId } from '../../../../util';
 import { CurrencyAmount } from '../../../../util/amounts';
@@ -96,24 +95,13 @@ export class V3HeuristicGasModelFactory extends IOnChainGasModelFactory {
       let l1Used = BigNumber.from(0);
       let l1FeeInWei = BigNumber.from(0);
       if (
-        chainId == ChainId.OPTIMISM ||
-        chainId == ChainId.OPTIMISTIC_KOVAN ||
-        chainId == ChainId.OPTIMISM_GOERLI
+        chainId == ChainId.MANTA ||
+        chainId == ChainId.MANTA_TESTNET
       ) {
-        [l1Used, l1FeeInWei] = this.calculateOptimismToL1SecurityFee(
+        [l1Used, l1FeeInWei] = this.calculateMantaToL1SecurityFee(
           route,
           swapOptions,
-          l2GasData as OptimismGasData
-        );
-      } else if (
-        chainId == ChainId.ARBITRUM_ONE ||
-        chainId == ChainId.ARBITRUM_RINKEBY ||
-        chainId == ChainId.ARBITRUM_GOERLI
-      ) {
-        [l1Used, l1FeeInWei] = this.calculateArbitrumToL1SecurityFee(
-          route,
-          swapOptions,
-          l2GasData as ArbitrumGasData
+          l2GasData as MantaGasData
         );
       }
 
@@ -413,13 +401,14 @@ export class V3HeuristicGasModelFactory extends IOnChainGasModelFactory {
   }
 
   /**
-   * To avoid having a call to optimism's L1 security fee contract for every route and amount combination,
+   * To avoid having a call to Manta's L1 security fee contract for every route and amount combination,
    * we replicate the gas cost accounting here.
    */
-  private calculateOptimismToL1SecurityFee(
+
+  private calculateMantaToL1SecurityFee(
     routes: V3RouteWithValidQuote[],
     swapConfig: SwapOptionsUniversalRouter,
-    gasData: OptimismGasData
+    gasData: MantaGasData
   ): [BigNumber, BigNumber] {
     const { l1BaseFee, scalar, decimals, overhead } = gasData;
 
@@ -438,7 +427,7 @@ export class V3HeuristicGasModelFactory extends IOnChainGasModelFactory {
     const data = buildSwapMethodParameters(
       trade,
       swapConfig,
-      ChainId.OPTIMISM
+      ChainId.MANTA
     ).calldata;
     const l1GasUsed = getL2ToL1GasUsed(data, overhead);
     // l1BaseFee is L1 Gas Price on etherscan
@@ -450,36 +439,4 @@ export class V3HeuristicGasModelFactory extends IOnChainGasModelFactory {
     return [l1GasUsed, scaled];
   }
 
-  private calculateArbitrumToL1SecurityFee(
-    routes: V3RouteWithValidQuote[],
-    swapConfig: SwapOptionsUniversalRouter,
-    gasData: ArbitrumGasData
-  ): [BigNumber, BigNumber] {
-    const { perL2TxFee, perL1CalldataFee } = gasData;
-
-    const route: V3RouteWithValidQuote = routes[0]!;
-
-    const amountToken =
-      route.tradeType == TradeType.EXACT_INPUT
-        ? route.amount.currency
-        : route.quote.currency;
-    const outputToken =
-      route.tradeType == TradeType.EXACT_INPUT
-        ? route.quote.currency
-        : route.amount.currency;
-
-    // build trade for swap calldata
-    const trade = buildTrade(amountToken, outputToken, route.tradeType, routes);
-    const data = buildSwapMethodParameters(
-      trade,
-      swapConfig,
-      ChainId.ARBITRUM_ONE
-    ).calldata;
-    // calculates gas amounts based on bytes of calldata, use 0 as overhead.
-    const l1GasUsed = getL2ToL1GasUsed(data, BigNumber.from(0));
-    // multiply by the fee per calldata and add the flat l2 fee
-    let l1Fee = l1GasUsed.mul(perL1CalldataFee);
-    l1Fee = l1Fee.add(perL2TxFee);
-    return [l1GasUsed, l1Fee];
-  }
 }

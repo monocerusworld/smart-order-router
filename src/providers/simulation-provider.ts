@@ -14,7 +14,7 @@ import {
 } from '../util';
 
 import { ProviderConfig } from './provider';
-import { ArbitrumGasData, OptimismGasData } from './v3/gas-data-provider';
+import { ArbitrumGasData, MantaGasData } from './v3/gas-data-provider';
 
 export type SimulationResult = {
   transaction: { hash: string; gas_used: number; error_message: string };
@@ -52,7 +52,7 @@ export abstract class Simulator {
     swapRoute: SwapRoute,
     amount: CurrencyAmount,
     quote: CurrencyAmount,
-    l2GasData?: OptimismGasData | ArbitrumGasData,
+    l2GasData?: MantaGasData | ArbitrumGasData,
     providerConfig?: ProviderConfig
   ): Promise<SwapRoute> {
     if (
@@ -94,7 +94,7 @@ export abstract class Simulator {
     fromAddress: string,
     swapOptions: SwapOptions,
     swapRoute: SwapRoute,
-    l2GasData?: OptimismGasData | ArbitrumGasData,
+    l2GasData?: MantaGasData | ArbitrumGasData,
     providerConfig?: ProviderConfig
   ): Promise<SwapRoute>;
 

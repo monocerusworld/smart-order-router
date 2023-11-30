@@ -2,128 +2,38 @@ import { Currency, Ether, NativeCurrency, Token } from '@uniswap/sdk-core';
 
 export enum ChainId {
   MAINNET = 1,
-  ROPSTEN = 3,
-  RINKEBY = 4,
-  GÖRLI = 5,
-  KOVAN = 42,
-  OPTIMISM = 10,
-  OPTIMISM_GOERLI = 420,
-  OPTIMISTIC_KOVAN = 69,
-  ARBITRUM_ONE = 42161,
-  ARBITRUM_RINKEBY = 421611,
-  ARBITRUM_GOERLI = 421613,
-  POLYGON = 137,
-  POLYGON_MUMBAI = 80001,
-  CELO = 42220,
-  CELO_ALFAJORES = 44787,
-  GNOSIS = 100,
-  MOONBEAM = 1284,
-  BSC = 56,
-  KLAYTN = 8217,
-  FANTOM = 250,
-  AVALANCHE = 43114,
+  MANTA = 169,
+  MANTA_TESTNET = 3441005,
 }
 
 // WIP: Gnosis, Moonbeam
 export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.MAINNET,
-  ChainId.RINKEBY,
-  ChainId.ROPSTEN,
-  ChainId.KOVAN,
-  ChainId.OPTIMISM,
-  ChainId.OPTIMISM_GOERLI,
-  ChainId.OPTIMISTIC_KOVAN,
-  ChainId.ARBITRUM_ONE,
-  ChainId.ARBITRUM_RINKEBY,
-  ChainId.ARBITRUM_GOERLI,
-  ChainId.POLYGON,
-  ChainId.POLYGON_MUMBAI,
-  ChainId.GÖRLI,
-  ChainId.CELO_ALFAJORES,
-  ChainId.CELO,
-  ChainId.BSC,
-  ChainId.KLAYTN,
-  ChainId.FANTOM,
-  ChainId.GNOSIS,
-  ChainId.AVALANCHE,
-  ChainId.MOONBEAM
+  ChainId.MANTA,
+  ChainId.MANTA_TESTNET
 ];
 
 export const V2_SUPPORTED = [
   ChainId.MAINNET,
-  ChainId.KOVAN,
-  ChainId.GÖRLI,
-  ChainId.RINKEBY,
-  ChainId.ROPSTEN,
 ];
 
 export const HAS_L1_FEE = [
-  ChainId.OPTIMISM,
-  ChainId.OPTIMISM_GOERLI,
-  ChainId.OPTIMISTIC_KOVAN,
-  ChainId.ARBITRUM_ONE,
-  ChainId.ARBITRUM_RINKEBY,
-  ChainId.ARBITRUM_GOERLI,
+  ChainId.MANTA,
+  ChainId.MANTA_TESTNET
 ];
 
 export const NETWORKS_WITH_SAME_UNISWAP_ADDRESSES = [
   ChainId.MAINNET,
-  ChainId.ROPSTEN,
-  ChainId.RINKEBY,
-  ChainId.GÖRLI,
-  ChainId.KOVAN,
-  ChainId.OPTIMISM,
-  ChainId.OPTIMISTIC_KOVAN,
-  ChainId.ARBITRUM_ONE,
-  ChainId.ARBITRUM_RINKEBY,
-  ChainId.POLYGON,
-  ChainId.POLYGON_MUMBAI,
 ];
 
 export const ID_TO_CHAIN_ID = (id: number): ChainId => {
   switch (id) {
     case 1:
       return ChainId.MAINNET;
-    case 3:
-      return ChainId.ROPSTEN;
-    case 4:
-      return ChainId.RINKEBY;
-    case 5:
-      return ChainId.GÖRLI;
-    case 42:
-      return ChainId.KOVAN;
-    case 56:
-      return ChainId.BSC;
-    case 10:
-      return ChainId.OPTIMISM;
-    case 420:
-      return ChainId.OPTIMISM_GOERLI;
-    case 69:
-      return ChainId.OPTIMISTIC_KOVAN;
-    case 42161:
-      return ChainId.ARBITRUM_ONE;
-    case 421611:
-      return ChainId.ARBITRUM_RINKEBY;
-    case 421613:
-      return ChainId.ARBITRUM_GOERLI;
-    case 137:
-      return ChainId.POLYGON;
-    case 80001:
-      return ChainId.POLYGON_MUMBAI;
-    case 42220:
-      return ChainId.CELO;
-    case 44787:
-      return ChainId.CELO_ALFAJORES;
-    case 100:
-      return ChainId.GNOSIS;
-    case 1284:
-      return ChainId.MOONBEAM;
-    case 250:
-      return ChainId.FANTOM;
-    case 8217:
-      return ChainId.KLAYTN;
-    case 43114:
-      return ChainId.AVALANCHE;
+    case 169:
+      return ChainId.MANTA;
+    case 3441005:
+      return ChainId.MANTA_TESTNET;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -131,39 +41,15 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
 
 export enum ChainName {
   MAINNET = 'mainnet',
-  ROPSTEN = 'ropsten',
-  RINKEBY = 'rinkeby',
-  GÖRLI = 'goerli',
-  KOVAN = 'kovan',
-  OPTIMISM = 'optimism-mainnet',
-  OPTIMISM_GOERLI = 'optimism-goerli',
-  OPTIMISTIC_KOVAN = 'optimism-kovan',
-  ARBITRUM_ONE = 'arbitrum-mainnet',
-  ARBITRUM_RINKEBY = 'arbitrum-rinkeby',
-  ARBITRUM_GOERLI = 'arbitrum-goerli',
-  POLYGON = 'polygon-mainnet',
-  POLYGON_MUMBAI = 'polygon-mumbai',
-  CELO = 'celo-mainnet',
-  CELO_ALFAJORES = 'celo-alfajores',
-  GNOSIS = 'gnosis-mainnet',
-  MOONBEAM = 'moonbeam-mainnet',
-  BSC = 'bsc-mainnet',
-  KLAYTN = 'klaytn-mainnet',
-  FANTOM = 'fantom-mainnet',
-  AVALANCHE = 'avalanche-mainnet',
+  MANTA = 'manta',
+  MANTA_TESTNET = 'manta-testnet',
 }
 
 export enum NativeCurrencyName {
   // Strings match input for CLI
   ETHER = 'ETH',
-  MATIC = 'MATIC',
-  CELO = 'CELO',
-  GNOSIS = 'XDAI',
-  MOONBEAM = 'GLMR',
-  BNB = 'BNB',
-  KLAYTN = 'KLAY',
-  FANTOM = 'FTM',
-  AVALANCHE = 'AVAX',
+  MANTA = 'ETH',
+  MANTA_TESTNET = 'MANTA',
 }
 export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
   [ChainId.MAINNET]: [
@@ -171,139 +57,27 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
     'ETHER',
     '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   ],
-  [ChainId.RINKEBY]: [
+  [ChainId.MANTA]: [
     'ETH',
     'ETHER',
     '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   ],
-  [ChainId.GÖRLI]: [
-    'ETH',
-    'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  ],
-  [ChainId.KOVAN]: [
-    'ETH',
-    'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  ],
-  [ChainId.ROPSTEN]: [
-    'ETH',
-    'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  ],
-  [ChainId.OPTIMISM]: [
-    'ETH',
-    'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  ],
-  [ChainId.OPTIMISM_GOERLI]: [
-    'ETH',
-    'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  ],
-  [ChainId.OPTIMISTIC_KOVAN]: [
-    'ETH',
-    'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  ],
-  [ChainId.ARBITRUM_ONE]: [
-    'ETH',
-    'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  ],
-  [ChainId.ARBITRUM_RINKEBY]: [
-    'ETH',
-    'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  ],
-  [ChainId.ARBITRUM_GOERLI]: [
-    'ETH',
-    'ETHER',
-    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  ],
-  [ChainId.POLYGON]: ['MATIC', '0x0000000000000000000000000000000000001010'],
-  [ChainId.POLYGON_MUMBAI]: [
-    'MATIC',
-    '0x0000000000000000000000000000000000001010',
-  ],
-  [ChainId.CELO]: ['CELO'],
-  [ChainId.CELO_ALFAJORES]: ['CELO'],
-  [ChainId.GNOSIS]: ['XDAI'],
-  [ChainId.MOONBEAM]: ['GLMR'],
-  [ChainId.BSC]: ['BNB', 'BNB', '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'],
-  [ChainId.KLAYTN]: ['KLAY'],
-  [ChainId.FANTOM]: ['FTM'],
-  [ChainId.AVALANCHE]: ['AVAX'],
 };
 
 export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.MAINNET]: NativeCurrencyName.ETHER,
-  [ChainId.ROPSTEN]: NativeCurrencyName.ETHER,
-  [ChainId.RINKEBY]: NativeCurrencyName.ETHER,
-  [ChainId.GÖRLI]: NativeCurrencyName.ETHER,
-  [ChainId.KOVAN]: NativeCurrencyName.ETHER,
-  [ChainId.OPTIMISM]: NativeCurrencyName.ETHER,
-  [ChainId.OPTIMISM_GOERLI]: NativeCurrencyName.ETHER,
-  [ChainId.OPTIMISTIC_KOVAN]: NativeCurrencyName.ETHER,
-  [ChainId.ARBITRUM_ONE]: NativeCurrencyName.ETHER,
-  [ChainId.ARBITRUM_RINKEBY]: NativeCurrencyName.ETHER,
-  [ChainId.ARBITRUM_GOERLI]: NativeCurrencyName.ETHER,
-  [ChainId.POLYGON]: NativeCurrencyName.MATIC,
-  [ChainId.POLYGON_MUMBAI]: NativeCurrencyName.MATIC,
-  [ChainId.CELO]: NativeCurrencyName.CELO,
-  [ChainId.CELO_ALFAJORES]: NativeCurrencyName.CELO,
-  [ChainId.GNOSIS]: NativeCurrencyName.GNOSIS,
-  [ChainId.MOONBEAM]: NativeCurrencyName.MOONBEAM,
-  [ChainId.BSC]: NativeCurrencyName.BNB,
-  [ChainId.KLAYTN]: NativeCurrencyName.KLAYTN,
-  [ChainId.FANTOM]: NativeCurrencyName.FANTOM,
-  [ChainId.AVALANCHE]: NativeCurrencyName.AVALANCHE,
+  [ChainId.MANTA]: NativeCurrencyName.ETHER,
+  [ChainId.MANTA_TESTNET]: NativeCurrencyName.MANTA_TESTNET,
 };
 
 export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
   switch (id) {
     case 1:
       return ChainName.MAINNET;
-    case 3:
-      return ChainName.ROPSTEN;
-    case 4:
-      return ChainName.RINKEBY;
-    case 5:
-      return ChainName.GÖRLI;
-    case 42:
-      return ChainName.KOVAN;
-    case 56:
-      return ChainName.BSC;
-    case 10:
-      return ChainName.OPTIMISM;
-    case 420:
-      return ChainName.OPTIMISM_GOERLI;
-    case 69:
-      return ChainName.OPTIMISTIC_KOVAN;
-    case 42161:
-      return ChainName.ARBITRUM_ONE;
-    case 421611:
-      return ChainName.ARBITRUM_RINKEBY;
-    case 421613:
-      return ChainName.ARBITRUM_GOERLI;
-    case 137:
-      return ChainName.POLYGON;
-    case 80001:
-      return ChainName.POLYGON_MUMBAI;
-    case 42220:
-      return ChainName.CELO;
-    case 44787:
-      return ChainName.CELO_ALFAJORES;
-    case 100:
-      return ChainName.GNOSIS;
-    case 250:
-      return ChainName.FANTOM;
-    case 8217:
-      return ChainName.KLAYTN;
-    case 43114:
-      return ChainName.AVALANCHE;
-    case 1284:
-      return ChainName.MOONBEAM;
+    case 169:
+      return ChainName.MANTA;
+    case 3441005:
+      return ChainName.MANTA_TESTNET;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -317,46 +91,10 @@ export const ID_TO_PROVIDER = (id: ChainId): string => {
   switch (id) {
     case ChainId.MAINNET:
       return process.env.JSON_RPC_PROVIDER!;
-    case ChainId.ROPSTEN:
-      return process.env.JSON_RPC_PROVIDER_ROPSTEN!;
-    case ChainId.RINKEBY:
-      return process.env.JSON_RPC_PROVIDER_RINKEBY!;
-    case ChainId.GÖRLI:
-      return process.env.JSON_RPC_PROVIDER_GORLI!;
-    case ChainId.KOVAN:
-      return process.env.JSON_RPC_PROVIDER_KOVAN!;
-    case ChainId.OPTIMISM:
-      return process.env.JSON_RPC_PROVIDER_OPTIMISM!;
-    case ChainId.OPTIMISM_GOERLI:
-      return process.env.JSON_RPC_PROVIDER_OPTIMISM_GOERLI!;
-    case ChainId.OPTIMISTIC_KOVAN:
-      return process.env.JSON_RPC_PROVIDER_OPTIMISTIC_KOVAN!;
-    case ChainId.ARBITRUM_ONE:
-      return process.env.JSON_RPC_PROVIDER_ARBITRUM_ONE!;
-    case ChainId.ARBITRUM_RINKEBY:
-      return process.env.JSON_RPC_PROVIDER_ARBITRUM_RINKEBY!;
-    case ChainId.ARBITRUM_GOERLI:
-      return process.env.JSON_RPC_PROVIDER_ARBITRUM_GOERLI!;
-    case ChainId.POLYGON:
-      return process.env.JSON_RPC_PROVIDER_POLYGON!;
-    case ChainId.POLYGON_MUMBAI:
-      return process.env.JSON_RPC_PROVIDER_POLYGON_MUMBAI!;
-    case ChainId.CELO:
-      return process.env.JSON_RPC_PROVIDER_CELO!;
-    case ChainId.CELO_ALFAJORES:
-      return process.env.JSON_RPC_PROVIDER_CELO_ALFAJORES!;
-    case ChainId.BSC:
-      return process.env.JSON_RPC_PROVIDER_BSC!;
-    case ChainId.GNOSIS:
-      return process.env.JSON_RPC_PROVIDER_GNOSIS!;
-    case ChainId.FANTOM:
-      return process.env.JSON_RPC_PROVIDER_FANTOM!;
-    case ChainId.KLAYTN:
-      return process.env.JSON_RPC_PROVIDER_KLAYTN!;
-    case ChainId.AVALANCHE:
-      return process.env.JSON_RPC_PROVIDER_AVALANCHE!;
-    case ChainId.MOONBEAM:
-      return process.env.JSON_RPC_PROVIDER_MOONBEAM!;
+    case ChainId.MANTA:
+      return process.env.JSON_RPC_PROVIDER_MANTA!;
+    case ChainId.MANTA_TESTNET:
+      return process.env.JSON_RPC_PROVIDER_MANTA_TESTNET!;
     default:
       throw new Error(`Chain id: ${id} not supported`);
   }
@@ -370,163 +108,33 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
     'WETH',
     'Wrapped Ether'
   ),
-  [ChainId.ROPSTEN]: new Token(
-    3,
-    '0xc778417E063141139Fce010982780140Aa0cD5Ab',
+  [ChainId.MANTA]: new Token(
+    169,
+    '0x0Dc808adcE2099A9F62AA87D9670745AbA741746',
     18,
     'WETH',
     'Wrapped Ether'
   ),
-  [ChainId.RINKEBY]: new Token(
-    4,
-    '0xc778417E063141139Fce010982780140Aa0cD5Ab',
+  [ChainId.MANTA_TESTNET]: new Token(
+    ChainId.MANTA_TESTNET,
+    '0x226E0D9fBDE51708fC36Bb4E5d1af9728A285cF4',
     18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.GÖRLI]: new Token(
-    5,
-    '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.KOVAN]: new Token(
-    42,
-    '0xd0A1E359811322d97991E03f863a0C30C2cF029C',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.BSC]: new Token(
-    56,
-    '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-    18,
-    'WBNB',
-    'Wrapped BNB'
-  ),
-  [ChainId.OPTIMISM]: new Token(
-    ChainId.OPTIMISM,
-    '0x4200000000000000000000000000000000000006',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.OPTIMISM_GOERLI]: new Token(
-    ChainId.OPTIMISM_GOERLI,
-    '0x4200000000000000000000000000000000000006',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.OPTIMISTIC_KOVAN]: new Token(
-    ChainId.OPTIMISTIC_KOVAN,
-    '0x4200000000000000000000000000000000000006',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.ARBITRUM_ONE]: new Token(
-    ChainId.ARBITRUM_ONE,
-    '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.ARBITRUM_RINKEBY]: new Token(
-    ChainId.ARBITRUM_RINKEBY,
-    '0xB47e6A5f8b33b3F17603C83a0535A9dcD7E32681',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.ARBITRUM_GOERLI]: new Token(
-    ChainId.ARBITRUM_GOERLI,
-    '0xe39Ab88f8A4777030A534146A9Ca3B52bd5D43A3',
-    18,
-    'WETH',
-    'Wrapped Ether'
-  ),
-  [ChainId.POLYGON]: new Token(
-    ChainId.POLYGON,
-    '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
-    18,
-    'WMATIC',
-    'Wrapped MATIC'
-  ),
-  [ChainId.POLYGON_MUMBAI]: new Token(
-    ChainId.POLYGON_MUMBAI,
-    '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
-    18,
-    'WMATIC',
-    'Wrapped MATIC'
-  ),
-
-  // The Celo native currency 'CELO' implements the erc-20 token standard
-  [ChainId.CELO]: new Token(
-    ChainId.CELO,
-    '0x471EcE3750Da237f93B8E339c536989b8978a438',
-    18,
-    'CELO',
-    'Celo native asset'
-  ),
-  [ChainId.CELO_ALFAJORES]: new Token(
-    ChainId.CELO_ALFAJORES,
-    '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9',
-    18,
-    'CELO',
-    'Celo native asset'
-  ),
-  [ChainId.GNOSIS]: new Token(
-    ChainId.GNOSIS,
-    '0xe91d153e0b41518a2ce8dd3d7944fa863463a97d',
-    18,
-    'WXDAI',
-    'Wrapped XDAI'
-  ),
-  [ChainId.MOONBEAM]: new Token(
-    ChainId.MOONBEAM,
-    '0xAcc15dC74880C9944775448304B263D191c6077F',
-    18,
-    'WGLMR',
-    'Wrapped GLMR'
-  ),
-  [ChainId.FANTOM]: new Token(
-    ChainId.FANTOM,
-    '0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83',
-    18,
-    'WFTM',
-    'Wrapped FTM'
-  ),
-  [ChainId.KLAYTN]: new Token(
-    ChainId.KLAYTN,
-    '0x19aac5f612f524b754ca7e7c41cbfa2e981a4432',
-    18,
-    'WKLAY',
-    'Wrapped KLAY'
-  ),
-  [ChainId.AVALANCHE]: new Token(
-    ChainId.AVALANCHE,
-    '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
-    18,
-    'WAVAX',
-    'Wrapped AVAX'
+    'WMANTA',
+    'Wrapped MANTA'
   ),
 };
 
-function isMatic(
-  chainId: number
-): chainId is ChainId.POLYGON | ChainId.POLYGON_MUMBAI {
-  return chainId === ChainId.POLYGON_MUMBAI || chainId === ChainId.POLYGON;
+function isMantaTestnet(chainId: number): chainId is ChainId.MANTA {
+  return chainId === ChainId.MANTA;
 }
 
-class MaticNativeCurrency extends NativeCurrency {
+class MantaTestnetNativeCurrency extends NativeCurrency {
   equals(other: Currency): boolean {
     return other.isNative && other.chainId === this.chainId;
   }
 
   get wrapped(): Token {
-    if (!isMatic(this.chainId)) throw new Error('Not matic');
+    if (!isMantaTestnet(this.chainId)) throw new Error('Not Manta Testnet');
     const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
     if (nativeCurrency) {
       return nativeCurrency;
@@ -535,178 +143,8 @@ class MaticNativeCurrency extends NativeCurrency {
   }
 
   public constructor(chainId: number) {
-    if (!isMatic(chainId)) throw new Error('Not matic');
-    super(chainId, 18, 'MATIC', 'Polygon Matic');
-  }
-}
-
-function isCelo(
-  chainId: number
-): chainId is ChainId.CELO | ChainId.CELO_ALFAJORES {
-  return chainId === ChainId.CELO_ALFAJORES || chainId === ChainId.CELO;
-}
-
-class CeloNativeCurrency extends NativeCurrency {
-  equals(other: Currency): boolean {
-    return other.isNative && other.chainId === this.chainId;
-  }
-
-  get wrapped(): Token {
-    if (!isCelo(this.chainId)) throw new Error('Not celo');
-    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
-    if (nativeCurrency) {
-      return nativeCurrency;
-    }
-    throw new Error(`Does not support this chain ${this.chainId}`);
-  }
-
-  public constructor(chainId: number) {
-    if (!isCelo(chainId)) throw new Error('Not celo');
-    super(chainId, 18, 'CELO', 'Celo');
-  }
-}
-
-function isGnosis(chainId: number): chainId is ChainId.GNOSIS {
-  return chainId === ChainId.GNOSIS;
-}
-
-class GnosisNativeCurrency extends NativeCurrency {
-  equals(other: Currency): boolean {
-    return other.isNative && other.chainId === this.chainId;
-  }
-
-  get wrapped(): Token {
-    if (!isGnosis(this.chainId)) throw new Error('Not gnosis');
-    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
-    if (nativeCurrency) {
-      return nativeCurrency;
-    }
-    throw new Error(`Does not support this chain ${this.chainId}`);
-  }
-
-  public constructor(chainId: number) {
-    if (!isGnosis(chainId)) throw new Error('Not gnosis');
-    super(chainId, 18, 'XDAI', 'xDai');
-  }
-}
-
-function isBsc(chainId: number): chainId is ChainId.BSC {
-  return chainId === ChainId.BSC;
-}
-
-class BscNativeCurrency extends NativeCurrency {
-  equals(other: Currency): boolean {
-    return other.isNative && other.chainId === this.chainId;
-  }
-
-  get wrapped(): Token {
-    if (!isBsc(this.chainId)) throw new Error('Not bnb');
-    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
-    if (nativeCurrency) {
-      return nativeCurrency;
-    }
-    throw new Error(`Does not support this chain ${this.chainId}`);
-  }
-
-  public constructor(chainId: number) {
-    if (!isBsc(chainId)) throw new Error('Not bnb');
-    super(chainId, 18, 'BNB', 'BNB');
-  }
-}
-
-function isMoonbeam(chainId: number): chainId is ChainId.MOONBEAM {
-  return chainId === ChainId.MOONBEAM;
-}
-
-class MoonbeamNativeCurrency extends NativeCurrency {
-  equals(other: Currency): boolean {
-    return other.isNative && other.chainId === this.chainId;
-  }
-
-  get wrapped(): Token {
-    if (!isMoonbeam(this.chainId)) throw new Error('Not moonbeam');
-    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
-    if (nativeCurrency) {
-      return nativeCurrency;
-    }
-    throw new Error(`Does not support this chain ${this.chainId}`);
-  }
-
-  public constructor(chainId: number) {
-    if (!isMoonbeam(chainId)) throw new Error('Not moonbeam');
-    super(chainId, 18, 'GLMR', 'Glimmer');
-  }
-}
-
-function isFantom(chainId: number): chainId is ChainId.FANTOM {
-  return chainId === ChainId.FANTOM;
-}
-
-class FantomNativeCurrency extends NativeCurrency {
-  equals(other: Currency): boolean {
-    return other.isNative && other.chainId === this.chainId;
-  }
-
-  get wrapped(): Token {
-    if (!isFantom(this.chainId)) throw new Error('Not ftm');
-    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
-    if (nativeCurrency) {
-      return nativeCurrency;
-    }
-    throw new Error(`Does not support this chain ${this.chainId}`);
-  }
-
-  public constructor(chainId: number) {
-    if (!isFantom(chainId)) throw new Error('Not ftm');
-    super(chainId, 18, 'FTM', 'FTM');
-  }
-}
-
-function isKlaytn(chainId: number): chainId is ChainId.KLAYTN {
-  return chainId === ChainId.KLAYTN;
-}
-
-class KlaytnNativeCurrency extends NativeCurrency {
-  equals(other: Currency): boolean {
-    return other.isNative && other.chainId === this.chainId;
-  }
-
-  get wrapped(): Token {
-    if (!isKlaytn(this.chainId)) throw new Error('Not klay');
-    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
-    if (nativeCurrency) {
-      return nativeCurrency;
-    }
-    throw new Error(`Does not support this chain ${this.chainId}`);
-  }
-
-  public constructor(chainId: number) {
-    if (!isKlaytn(chainId)) throw new Error('Not klay');
-    super(chainId, 18, 'KLAY', 'KLAY');
-  }
-}
-
-function isAvalanche(chainId: number): chainId is ChainId.AVALANCHE {
-  return chainId === ChainId.AVALANCHE;
-}
-
-class AvalancheNativeCurrency extends NativeCurrency {
-  equals(other: Currency): boolean {
-    return other.isNative && other.chainId === this.chainId;
-  }
-
-  get wrapped(): Token {
-    if (!isAvalanche(this.chainId)) throw new Error('Not Avalanche');
-    const nativeCurrency = WRAPPED_NATIVE_CURRENCY[this.chainId];
-    if (nativeCurrency) {
-      return nativeCurrency;
-    }
-    throw new Error(`Does not support this chain ${this.chainId}`);
-  }
-
-  public constructor(chainId: number) {
-    if (!isAvalanche(chainId)) throw new Error('Not Avalanche');
-    super(chainId, 18, 'AVAX', 'AVAX');
+    if (!isMantaTestnet(chainId)) throw new Error('Not Manta Testnet');
+    super(chainId, 18, 'MANTA', 'MANTA');
   }
 }
 
@@ -732,22 +170,8 @@ const cachedNativeCurrency: { [chainId: number]: NativeCurrency } = {};
 export function nativeOnChain(chainId: number): NativeCurrency {
   if (cachedNativeCurrency[chainId] != undefined)
     return cachedNativeCurrency[chainId]!;
-  if (isMatic(chainId))
-    cachedNativeCurrency[chainId] = new MaticNativeCurrency(chainId);
-  else if (isCelo(chainId))
-    cachedNativeCurrency[chainId] = new CeloNativeCurrency(chainId);
-  else if (isGnosis(chainId))
-    cachedNativeCurrency[chainId] = new GnosisNativeCurrency(chainId);
-  else if (isMoonbeam(chainId))
-    cachedNativeCurrency[chainId] = new MoonbeamNativeCurrency(chainId);
-  else if (isBsc(chainId))
-    cachedNativeCurrency[chainId] = new BscNativeCurrency(chainId);
-  else if (isFantom(chainId))
-    cachedNativeCurrency[chainId] = new FantomNativeCurrency(chainId);
-  else if (isKlaytn(chainId))
-    cachedNativeCurrency[chainId] = new KlaytnNativeCurrency(chainId);
-  else if (isAvalanche(chainId))
-    cachedNativeCurrency[chainId] = new AvalancheNativeCurrency(chainId);
+  if (isMantaTestnet(chainId))
+    cachedNativeCurrency[chainId] = new MantaTestnetNativeCurrency(chainId);
   else cachedNativeCurrency[chainId] = ExtendedEther.onChain(chainId);
 
   return cachedNativeCurrency[chainId]!;

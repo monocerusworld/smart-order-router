@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { IV2PoolProvider } from '../providers';
 import {
   ArbitrumGasData,
-  OptimismGasData,
+  MantaGasData,
 } from '../providers/v3/gas-data-provider';
 import { IV3PoolProvider } from '../providers/v3/pool-provider';
 import {
@@ -210,9 +210,9 @@ export function calculateArbitrumToL1FeeFromCalldata(
   return [l1GasUsed, l1Fee];
 }
 
-export function calculateOptimismToL1FeeFromCalldata(
+export function calculateMantaToL1FeeFromCalldata(
   calldata: string,
-  gasData: OptimismGasData
+  gasData: MantaGasData
 ): [BigNumber, BigNumber] {
   const { l1BaseFee, scalar, decimals, overhead } = gasData;
 
@@ -226,7 +226,7 @@ export function calculateOptimismToL1FeeFromCalldata(
   return [l1GasUsed, scaled];
 }
 
-// based on the code from the optimism OVM_GasPriceOracle contract
+// based on the code from the Manta OVM_GasPriceOracle contract
 export function getL2ToL1GasUsed(data: string, overhead: BigNumber): BigNumber {
   // data is hex encoded
   const dataArr: string[] = data.slice(2).match(/.{1,2}/g)!;
@@ -251,7 +251,7 @@ export async function calculateGasUsed(
   simulatedGasUsed: BigNumber,
   v2PoolProvider: IV2PoolProvider,
   v3PoolProvider: IV3PoolProvider,
-  l2GasData?: ArbitrumGasData | OptimismGasData
+  l2GasData?: ArbitrumGasData | MantaGasData
 ) {
   const quoteToken = route.quote.currency.wrapped;
   const gasPriceWei = route.gasPriceWei;
@@ -270,14 +270,13 @@ export async function calculateGasUsed(
     )[1];
   } else if (
     [
-      ChainId.OPTIMISM,
-      ChainId.OPTIMISTIC_KOVAN,
-      ChainId.OPTIMISM_GOERLI,
+      ChainId.MANTA,
+      ChainId.MANTA_TESTNET, \
     ].includes(chainId)
   ) {
-    l2toL1FeeInWei = calculateOptimismToL1FeeFromCalldata(
+    l2toL1FeeInWei = calculateMantaToL1FeeFromCalldata(
       route.methodParameters!.calldata,
-      l2GasData as OptimismGasData
+      l2GasData as MantaGasData
     )[1];
   }
 
@@ -446,10 +445,10 @@ export function initSwapRouteFromExisting(
     blockNumber: BigNumber.from(swapRoute.blockNumber),
     methodParameters: swapRoute.methodParameters
       ? ({
-          calldata: swapRoute.methodParameters.calldata,
-          value: swapRoute.methodParameters.value,
-          to: swapRoute.methodParameters.to,
-        } as MethodParameters)
+        calldata: swapRoute.methodParameters.calldata,
+        value: swapRoute.methodParameters.value,
+        to: swapRoute.methodParameters.to,
+      } as MethodParameters)
       : undefined,
     simulationStatus: swapRoute.simulationStatus,
   };

@@ -11,7 +11,7 @@ import {
 import { ProviderConfig } from './provider';
 import { SimulationStatus, Simulator } from './simulation-provider';
 import { IV2PoolProvider } from './v2/pool-provider';
-import { ArbitrumGasData, OptimismGasData } from './v3/gas-data-provider';
+import { ArbitrumGasData, MantaGasData } from './v3/gas-data-provider';
 import { IV3PoolProvider } from './v3/pool-provider';
 
 export class EthEstimateGasSimulator extends Simulator {
@@ -31,7 +31,7 @@ export class EthEstimateGasSimulator extends Simulator {
     fromAddress: string,
     swapOptions: SwapOptions,
     route: SwapRoute,
-    l2GasData?: ArbitrumGasData | OptimismGasData
+    l2GasData?: ArbitrumGasData | MantaGasData
   ): Promise<SwapRoute> {
     const currencyIn = route.trade.inputAmount.currency;
     let estimatedGasUsed: BigNumber;
@@ -118,7 +118,7 @@ export class EthEstimateGasSimulator extends Simulator {
     fromAddress: string,
     swapOptions: any,
     swapRoute: SwapRoute,
-    l2GasData?: OptimismGasData | ArbitrumGasData | undefined,
+    l2GasData?: MantaGasData | ArbitrumGasData | undefined,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _providerConfig?: ProviderConfig | undefined
   ): Promise<SwapRoute> {

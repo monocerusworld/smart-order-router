@@ -59,10 +59,9 @@ import {
 } from '../../providers/v2/pool-provider';
 import {
   ArbitrumGasData,
-  ArbitrumGasDataProvider,
   IL2GasDataProvider,
-  OptimismGasData,
-  OptimismGasDataProvider,
+  MantaGasData,
+  MantaGasDataProvider,
 } from '../../providers/v3/gas-data-provider';
 import {
   IV3PoolProvider,
@@ -203,9 +202,9 @@ export type AlphaRouterParams = {
   swapRouterProvider?: ISwapRouterProvider;
 
   /**
-   * Calls the optimism gas oracle contract to fetch constants for calculating the l1 security fee.
+   * Calls the Manta gas oracle contract to fetch constants for calculating the l1 security fee.
    */
-  optimismGasDataProvider?: IL2GasDataProvider<OptimismGasData>;
+  mantaGasDataProvider?: IL2GasDataProvider<MantaGasData>;
 
   /**
    * A token validator for detecting fee-on-transfer tokens or tokens that can't be transferred.
@@ -344,8 +343,8 @@ export type AlphaRouterConfig = {
 
 export class AlphaRouter
   implements
-    IRouter<AlphaRouterConfig>,
-    ISwapToRatio<AlphaRouterConfig, SwapAndAddConfig>
+  IRouter<AlphaRouterConfig>,
+  ISwapToRatio<AlphaRouterConfig, SwapAndAddConfig>
 {
   protected chainId: ChainId;
   protected provider: BaseProvider;
@@ -365,7 +364,7 @@ export class AlphaRouter
   protected tokenValidatorProvider?: ITokenValidatorProvider;
   protected blockedTokenListProvider?: ITokenListProvider;
   protected l2GasDataProvider?:
-    | IL2GasDataProvider<OptimismGasData>
+    | IL2GasDataProvider<MantaGasData>
     | IL2GasDataProvider<ArbitrumGasData>;
   protected simulator?: Simulator;
   protected v2Quoter: V2Quoter;
@@ -390,9 +389,8 @@ export class AlphaRouter
     v2GasModelFactory,
     mixedRouteGasModelFactory,
     swapRouterProvider,
-    optimismGasDataProvider,
+    mantaGasDataProvider,
     tokenValidatorProvider,
-    arbitrumGasDataProvider,
     simulator,
     routeCachingProvider,
   }: AlphaRouterParams) {
@@ -415,9 +413,8 @@ export class AlphaRouter
       this.onChainQuoteProvider = onChainQuoteProvider;
     } else {
       switch (chainId) {
-        case ChainId.OPTIMISM:
-        case ChainId.OPTIMISM_GOERLI:
-        case ChainId.OPTIMISTIC_KOVAN:
+        case ChainId.MANTA:
+        case ChainId.MANTA_TESTNET:
           this.onChainQuoteProvider = new OnChainQuoteProvider(
             chainId,
             provider,
@@ -629,19 +626,10 @@ export class AlphaRouter
       swapRouterProvider ??
       new SwapRouterProvider(this.multicall2Provider, this.chainId);
 
-    if (chainId === ChainId.OPTIMISM || chainId === ChainId.OPTIMISTIC_KOVAN) {
+    if (chainId === ChainId.MANTA || chainId === ChainId.MANTA_TESTNET) {
       this.l2GasDataProvider =
-        optimismGasDataProvider ??
-        new OptimismGasDataProvider(chainId, this.multicall2Provider);
-    }
-    if (
-      chainId === ChainId.ARBITRUM_ONE ||
-      chainId === ChainId.ARBITRUM_RINKEBY ||
-      chainId === ChainId.ARBITRUM_GOERLI
-    ) {
-      this.l2GasDataProvider =
-        arbitrumGasDataProvider ??
-        new ArbitrumGasDataProvider(chainId, this.provider);
+        mantaGasDataProvider ??
+        new MantaGasDataProvider(chainId, this.multicall2Provider);
     }
     if (tokenValidatorProvider) {
       this.tokenValidatorProvider = tokenValidatorProvider;
