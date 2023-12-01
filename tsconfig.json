@@ -1,4 +1,5 @@
-{
+{    
+  "baseUrl": ".",
   "compilerOptions": {
     "baseUrl": ".",
     "incremental": true,
@@ -36,6 +37,5 @@
     "types": ["node", "jest"]
   },
   "include": ["src/index.ts"],
-  "compileOnSave": false,
-  "baseUrl": "."
+  "compileOnSave": false
 }

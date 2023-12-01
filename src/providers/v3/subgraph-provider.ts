@@ -50,7 +50,7 @@ const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
   [ChainId.MANTA]:
     'https://api.thegraph.com/subgraphs/name/monocerus/v3-manta',
   [ChainId.MANTA_TESTNET]:
-    'https://api.thegraph.com/subgraphs/name/monocerus/v3-manta-testnet',
+    'https://api.goldsky.com/api/public/project_clpm9wvhralny01szb1oa4pue/subgraphs/monocerus/1.0.0/gn',
 };
 
 const PAGE_SIZE = 1000; // 1k is max possible query size from subgraph.
