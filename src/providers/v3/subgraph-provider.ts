@@ -48,7 +48,7 @@ const SUBGRAPH_URL_BY_CHAIN: { [chainId in ChainId]?: string } = {
   [ChainId.MAINNET]:
     'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
   [ChainId.MANTA]:
-    'https://api.thegraph.com/subgraphs/name/monocerus/v3-manta',
+    'https://api.goldsky.com/api/public/project_clpm9wvhralny01szb1oa4pue/subgraphs/monocerus/1.1.0/gn',
   [ChainId.MANTA_TESTNET]:
     'https://api.goldsky.com/api/public/project_clpm9wvhralny01szb1oa4pue/subgraphs/monocerus/1.0.0/gn',
 };

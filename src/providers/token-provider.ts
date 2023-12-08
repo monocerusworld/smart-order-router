@@ -77,14 +77,14 @@ export const WMANTA_MANTA_TESTNET = new Token(
 // Manta Tokens
 export const USDT_MANTA = new Token(
   ChainId.MANTA,
-  '0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7',
+  '0xf417F5A458eC102B90352F697D6e2Ac3A3d2851f',
   6,
   'USDT',
   'TetherToken'
 );
 export const USDC_MANTA = new Token(
   ChainId.MANTA,
-  '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
+  '0xb73603C5d87fA094B7314C74ACE2e64D165016fb',
   6,
   'USDC',
   'USD Coin'
