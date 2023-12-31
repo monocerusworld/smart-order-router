@@ -1,4 +1,4 @@
-import { USDC_MAINNET, USDC_MANTA, USDC_MANTA_TESTNET, USDT_MAINNET, USDT_MANTA, USDT_MANTA_TESTNET, } from '../../providers/token-provider';
+import { USDC_MAINNET, USDC_MANTA, USDC_MANTA_TESTNET, USDT_MAINNET, USDT_MANTA, CERUS_MANTA, USDT_MANTA_TESTNET, } from '../../providers/token-provider';
 import { ChainId, WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
 export const BASES_TO_CHECK_TRADES_AGAINST = (_tokenProvider) => {
     return {
@@ -16,6 +16,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST = (_tokenProvider) => {
             WRAPPED_NATIVE_CURRENCY[ChainId.MANTA],
             USDC_MANTA,
             USDT_MANTA,
+            CERUS_MANTA
         ],
     };
 };

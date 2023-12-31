@@ -20,7 +20,7 @@ const BASES_TO_CHECK_TRADES_AGAINST = {
     [chains_1.ChainId.MANTA]: [
         chains_1.WRAPPED_NATIVE_CURRENCY[chains_1.ChainId.MANTA],
         token_provider_1.USDC_MANTA,
-        token_provider_1.USDT_MANTA,
+        token_provider_1.USDT_MANTA, token_provider_1.CERUS_MANTA
     ],
     [chains_1.ChainId.MANTA_TESTNET]: [
         chains_1.WRAPPED_NATIVE_CURRENCY[chains_1.ChainId.MANTA_TESTNET],
@@ -56,13 +56,13 @@ class StaticV3SubgraphProvider {
             .filter((tokens) => Boolean(tokens[0] && tokens[1]))
             .filter(([tokenA, tokenB]) => tokenA.address !== tokenB.address && !tokenA.equals(tokenB))
             .flatMap(([tokenA, tokenB]) => {
-            return [
-                [tokenA, tokenB, v3_sdk_1.FeeAmount.LOWEST],
-                [tokenA, tokenB, v3_sdk_1.FeeAmount.LOW],
-                [tokenA, tokenB, v3_sdk_1.FeeAmount.MEDIUM],
-                [tokenA, tokenB, v3_sdk_1.FeeAmount.HIGH],
-            ];
-        })
+                return [
+                    [tokenA, tokenB, v3_sdk_1.FeeAmount.LOWEST],
+                    [tokenA, tokenB, v3_sdk_1.FeeAmount.LOW],
+                    [tokenA, tokenB, v3_sdk_1.FeeAmount.MEDIUM],
+                    [tokenA, tokenB, v3_sdk_1.FeeAmount.HIGH],
+                ];
+            })
             .value();
         log_1.log.info(`V3 Static subgraph provider about to get ${pairs.length} pools on-chain`);
         const poolAccessor = await this.poolProvider.getPools(pairs);
@@ -70,28 +70,28 @@ class StaticV3SubgraphProvider {
         const poolAddressSet = new Set();
         const subgraphPools = (0, lodash_1.default)(pools)
             .map((pool) => {
-            const { token0, token1, fee, liquidity } = pool;
-            const poolAddress = v3_sdk_1.Pool.getAddress(pool.token0, pool.token1, pool.fee);
-            if (poolAddressSet.has(poolAddress)) {
-                return undefined;
-            }
-            poolAddressSet.add(poolAddress);
-            const liquidityNumber = jsbi_1.default.toNumber(liquidity);
-            return {
-                id: poolAddress,
-                feeTier: (0, amounts_1.unparseFeeAmount)(fee),
-                liquidity: liquidity.toString(),
-                token0: {
-                    id: token0.address,
-                },
-                token1: {
-                    id: token1.address,
-                },
-                // As a very rough proxy we just use liquidity for TVL.
-                tvlETH: liquidityNumber,
-                tvlUSD: liquidityNumber,
-            };
-        })
+                const { token0, token1, fee, liquidity } = pool;
+                const poolAddress = v3_sdk_1.Pool.getAddress(pool.token0, pool.token1, pool.fee);
+                if (poolAddressSet.has(poolAddress)) {
+                    return undefined;
+                }
+                poolAddressSet.add(poolAddress);
+                const liquidityNumber = jsbi_1.default.toNumber(liquidity);
+                return {
+                    id: poolAddress,
+                    feeTier: (0, amounts_1.unparseFeeAmount)(fee),
+                    liquidity: liquidity.toString(),
+                    token0: {
+                        id: token0.address,
+                    },
+                    token1: {
+                        id: token1.address,
+                    },
+                    // As a very rough proxy we just use liquidity for TVL.
+                    tvlETH: liquidityNumber,
+                    tvlUSD: liquidityNumber,
+                };
+            })
             .compact()
             .value();
         return subgraphPools;

@@ -19,6 +19,7 @@ const BASES_TO_CHECK_TRADES_AGAINST = (_tokenProvider) => {
             chains_1.WRAPPED_NATIVE_CURRENCY[chains_1.ChainId.MANTA],
             token_provider_1.USDC_MANTA,
             token_provider_1.USDT_MANTA,
+            token_provider_1.CERUS_MANTA
         ],
     };
 };

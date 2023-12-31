@@ -6,6 +6,7 @@ import {
   USDC_MANTA,
   USDC_MANTA_TESTNET,
   USDT_MAINNET,
+  CERUS_MANTA,
   USDT_MANTA,
   USDT_MANTA_TESTNET,
 } from '../../../providers/token-provider';
@@ -28,7 +29,7 @@ import {
 export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = {
   [ChainId.MAINNET]: [USDC_MAINNET, USDT_MAINNET],
   [ChainId.MANTA_TESTNET]: [USDC_MANTA_TESTNET, USDT_MANTA_TESTNET],
-  [ChainId.MANTA]: [USDC_MANTA, USDT_MANTA],
+  [ChainId.MANTA]: [USDC_MANTA, USDT_MANTA, CERUS_MANTA],
 };
 
 export type L1ToL2GasCosts = {

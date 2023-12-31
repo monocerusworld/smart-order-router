@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { unparseFeeAmount } from '../../util/amounts';
 import { ChainId, WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
 import { log } from '../../util/log';
-import { USDC_MAINNET, USDC_MANTA, USDC_MANTA_TESTNET, USDT_MAINNET, USDT_MANTA, USDT_MANTA_TESTNET, WMANTA_MANTA_TESTNET, } from '../token-provider';
+import { USDC_MAINNET, USDC_MANTA, USDC_MANTA_TESTNET, USDT_MAINNET, USDT_MANTA, CERUS_MANTA, USDT_MANTA_TESTNET, WMANTA_MANTA_TESTNET, } from '../token-provider';
 const BASES_TO_CHECK_TRADES_AGAINST = {
     [ChainId.MAINNET]: [
         WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET],
@@ -15,6 +15,7 @@ const BASES_TO_CHECK_TRADES_AGAINST = {
         WRAPPED_NATIVE_CURRENCY[ChainId.MANTA],
         USDC_MANTA,
         USDT_MANTA,
+        CERUS_MANTA
     ],
     [ChainId.MANTA_TESTNET]: [
         WRAPPED_NATIVE_CURRENCY[ChainId.MANTA_TESTNET],
@@ -50,13 +51,13 @@ export class StaticV3SubgraphProvider {
             .filter((tokens) => Boolean(tokens[0] && tokens[1]))
             .filter(([tokenA, tokenB]) => tokenA.address !== tokenB.address && !tokenA.equals(tokenB))
             .flatMap(([tokenA, tokenB]) => {
-            return [
-                [tokenA, tokenB, FeeAmount.LOWEST],
-                [tokenA, tokenB, FeeAmount.LOW],
-                [tokenA, tokenB, FeeAmount.MEDIUM],
-                [tokenA, tokenB, FeeAmount.HIGH],
-            ];
-        })
+                return [
+                    [tokenA, tokenB, FeeAmount.LOWEST],
+                    [tokenA, tokenB, FeeAmount.LOW],
+                    [tokenA, tokenB, FeeAmount.MEDIUM],
+                    [tokenA, tokenB, FeeAmount.HIGH],
+                ];
+            })
             .value();
         log.info(`V3 Static subgraph provider about to get ${pairs.length} pools on-chain`);
         const poolAccessor = await this.poolProvider.getPools(pairs);
@@ -64,28 +65,28 @@ export class StaticV3SubgraphProvider {
         const poolAddressSet = new Set();
         const subgraphPools = _(pools)
             .map((pool) => {
-            const { token0, token1, fee, liquidity } = pool;
-            const poolAddress = Pool.getAddress(pool.token0, pool.token1, pool.fee);
-            if (poolAddressSet.has(poolAddress)) {
-                return undefined;
-            }
-            poolAddressSet.add(poolAddress);
-            const liquidityNumber = JSBI.toNumber(liquidity);
-            return {
-                id: poolAddress,
-                feeTier: unparseFeeAmount(fee),
-                liquidity: liquidity.toString(),
-                token0: {
-                    id: token0.address,
-                },
-                token1: {
-                    id: token1.address,
-                },
-                // As a very rough proxy we just use liquidity for TVL.
-                tvlETH: liquidityNumber,
-                tvlUSD: liquidityNumber,
-            };
-        })
+                const { token0, token1, fee, liquidity } = pool;
+                const poolAddress = Pool.getAddress(pool.token0, pool.token1, pool.fee);
+                if (poolAddressSet.has(poolAddress)) {
+                    return undefined;
+                }
+                poolAddressSet.add(poolAddress);
+                const liquidityNumber = JSBI.toNumber(liquidity);
+                return {
+                    id: poolAddress,
+                    feeTier: unparseFeeAmount(fee),
+                    liquidity: liquidity.toString(),
+                    token0: {
+                        id: token0.address,
+                    },
+                    token1: {
+                        id: token1.address,
+                    },
+                    // As a very rough proxy we just use liquidity for TVL.
+                    tvlETH: liquidityNumber,
+                    tvlUSD: liquidityNumber,
+                };
+            })
             .compact()
             .value();
         return subgraphPools;

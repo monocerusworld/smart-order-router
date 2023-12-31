@@ -6,7 +6,7 @@ const chains_1 = require("../../../util/chains");
 exports.usdGasTokensByChain = {
     [chains_1.ChainId.MAINNET]: [token_provider_1.USDC_MAINNET, token_provider_1.USDT_MAINNET],
     [chains_1.ChainId.MANTA_TESTNET]: [token_provider_1.USDC_MANTA_TESTNET, token_provider_1.USDT_MANTA_TESTNET],
-    [chains_1.ChainId.MANTA]: [token_provider_1.USDC_MANTA, token_provider_1.USDT_MANTA],
+    [chains_1.ChainId.MANTA]: [token_provider_1.USDC_MANTA, token_provider_1.USDT_MANTA, token_provider_1.CERUS_MANTA],
 };
 /**
  * Factory for building gas models that can be used with any route to generate

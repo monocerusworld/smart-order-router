@@ -1,0 +1,95 @@
+import { FeeAmount, Pool } from '@uniswap/v3-sdk';
+import JSBI from 'jsbi';
+import _ from 'lodash';
+import { unparseFeeAmount } from '../../util/amounts';
+import { ChainId, WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
+import { log } from '../../util/log';
+import { USDC_MAINNET, USDC_MANTA, USDC_MANTA_TESTNET, USDT_MAINNET, USDT_MANTA, CERUS_MANTA, USDT_MANTA_TESTNET, WMANTA_MANTA_TESTNET, } from '../token-provider';
+const BASES_TO_CHECK_TRADES_AGAINST = {
+    [ChainId.MAINNET]: [
+        WRAPPED_NATIVE_CURRENCY[ChainId.MAINNET],
+        USDC_MAINNET,
+        USDT_MAINNET,
+    ],
+    [ChainId.MANTA]: [
+        WRAPPED_NATIVE_CURRENCY[ChainId.MANTA],
+        USDC_MANTA,
+        USDT_MANTA,
+        CERUS_MANTA
+    ],
+    [ChainId.MANTA_TESTNET]: [
+        WRAPPED_NATIVE_CURRENCY[ChainId.MANTA_TESTNET],
+        USDC_MANTA_TESTNET,
+        USDT_MANTA_TESTNET,
+        WMANTA_MANTA_TESTNET,
+    ],
+};
+/**
+ * Provider that uses a hardcoded list of V3 pools to generate a list of subgraph pools.
+ *
+ * Since the pools are hardcoded and the data does not come from the Subgraph, the TVL values
+ * are dummys and should not be depended on.
+ *
+ * Useful for instances where other data sources are unavailable. E.g. Subgraph not available.
+ *
+ * @export
+ * @class StaticV3SubgraphProvider
+ */
+export class StaticV3SubgraphProvider {
+    constructor(chainId, poolProvider) {
+        this.chainId = chainId;
+        this.poolProvider = poolProvider;
+    }
+    async getPools(tokenIn, tokenOut) {
+        log.info('In static subgraph provider for V3');
+        const bases = BASES_TO_CHECK_TRADES_AGAINST[this.chainId];
+        const basePairs = _.flatMap(bases, (base) => bases.map((otherBase) => [base, otherBase]));
+        if (tokenIn && tokenOut) {
+            basePairs.push([tokenIn, tokenOut], ...bases.map((base) => [tokenIn, base]), ...bases.map((base) => [tokenOut, base]));
+        }
+        const pairs = _(basePairs)
+            .filter((tokens) => Boolean(tokens[0] && tokens[1]))
+            .filter(([tokenA, tokenB]) => tokenA.address !== tokenB.address && !tokenA.equals(tokenB))
+            .flatMap(([tokenA, tokenB]) => {
+            return [
+                [tokenA, tokenB, FeeAmount.LOWEST],
+                [tokenA, tokenB, FeeAmount.LOW],
+                [tokenA, tokenB, FeeAmount.MEDIUM],
+                [tokenA, tokenB, FeeAmount.HIGH],
+            ];
+        })
+            .value();
+        log.info(`V3 Static subgraph provider about to get ${pairs.length} pools on-chain`);
+        const poolAccessor = await this.poolProvider.getPools(pairs);
+        const pools = poolAccessor.getAllPools();
+        const poolAddressSet = new Set();
+        const subgraphPools = _(pools)
+            .map((pool) => {
+            const { token0, token1, fee, liquidity } = pool;
+            const poolAddress = Pool.getAddress(pool.token0, pool.token1, pool.fee);
+            if (poolAddressSet.has(poolAddress)) {
+                return undefined;
+            }
+            poolAddressSet.add(poolAddress);
+            const liquidityNumber = JSBI.toNumber(liquidity);
+            return {
+                id: poolAddress,
+                feeTier: unparseFeeAmount(fee),
+                liquidity: liquidity.toString(),
+                token0: {
+                    id: token0.address,
+                },
+                token1: {
+                    id: token1.address,
+                },
+                // As a very rough proxy we just use liquidity for TVL.
+                tvlETH: liquidityNumber,
+                tvlUSD: liquidityNumber,
+            };
+        })
+            .compact()
+            .value();
+        return subgraphPools;
+    }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic3RhdGljLXN1YmdyYXBoLXByb3ZpZGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vc3JjL3Byb3ZpZGVycy92My9zdGF0aWMtc3ViZ3JhcGgtcHJvdmlkZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBRUEsT0FBTyxFQUFFLFNBQVMsRUFBRSxJQUFJLEVBQUUsTUFBTSxpQkFBaUIsQ0FBQztBQUNsRCxPQUFPLElBQUksTUFBTSxNQUFNLENBQUM7QUFDeEIsT0FBTyxDQUFDLE1BQU0sUUFBUSxDQUFDO0FBRXZCLE9BQU8sRUFBRSxnQkFBZ0IsRUFBRSxNQUFNLG9CQUFvQixDQUFDO0FBQ3RELE9BQU8sRUFBRSxPQUFPLEVBQUUsdUJBQXVCLEVBQUUsTUFBTSxtQkFBbUIsQ0FBQztBQUNyRSxPQUFPLEVBQUUsR0FBRyxFQUFFLE1BQU0sZ0JBQWdCLENBQUM7QUFDckMsT0FBTyxFQUNMLFlBQVksRUFDWixVQUFVLEVBQ1Ysa0JBQWtCLEVBQ2xCLFlBQVksRUFDWixVQUFVLEVBQ1YsV0FBVyxFQUNYLGtCQUFrQixFQUNsQixvQkFBb0IsR0FDckIsTUFBTSxtQkFBbUIsQ0FBQztBQVMzQixNQUFNLDZCQUE2QixHQUFtQjtJQUNwRCxDQUFDLE9BQU8sQ0FBQyxPQUFPLENBQUMsRUFBRTtRQUNqQix1QkFBdUIsQ0FBQyxPQUFPLENBQUMsT0FBTyxDQUFFO1FBQ3pDLFlBQVk7UUFDWixZQUFZO0tBQ2I7SUFDRCxDQUFDLE9BQU8sQ0FBQyxLQUFLLENBQUMsRUFBRTtRQUNmLHVCQUF1QixDQUFDLE9BQU8sQ0FBQyxLQUFLLENBQUM7UUFDdEMsVUFBVTtRQUNWLFVBQVU7UUFDVixXQUFXO0tBQ1o7SUFDRCxDQUFDLE9BQU8sQ0FBQyxhQUFhLENBQUMsRUFBRTtRQUN2Qix1QkFBdUIsQ0FBQyxPQUFPLENBQUMsYUFBYSxDQUFDO1FBQzlDLGtCQUFrQjtRQUNsQixrQkFBa0I7UUFDbEIsb0JBQW9CO0tBQ3JCO0NBQ0YsQ0FBQztB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

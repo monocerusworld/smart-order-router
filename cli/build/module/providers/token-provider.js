@@ -10,6 +10,13 @@ export const USDC_MANTA_TESTNET = new Token(ChainId.MANTA_TESTNET, '0x8cDdB93BD8
 export const USDT_MANTA_TESTNET = new Token(ChainId.MANTA_TESTNET, '0xC5a38c67077B713d6f28097B3C10Cc7Cdd3433F9', 6, 'USDT', 'Tether USD');
 export const WMANTA_MANTA_TESTNET = new Token(ChainId.MANTA_TESTNET, '0x226E0D9fBDE51708fC36Bb4E5d1af9728A285cF4', 18, 'WMANTA', 'Wrapped MANTA');
 // Manta Tokens
+export const CERUS_MANTA = new Token(
+    ChainId.MANTA,
+    '0x657218E3535B32EDef9a722E35dcd6EA40E1202e',
+    18,
+    'CERUS',
+    'Monocerus'
+);
 export const USDT_MANTA = new Token(ChainId.MANTA, '0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7', 6, 'USDT', 'TetherToken');
 export const USDC_MANTA = new Token(ChainId.MANTA, '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E', 6, 'USDC', 'USD Coin');
 export class TokenProvider {

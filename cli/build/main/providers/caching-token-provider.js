@@ -24,6 +24,7 @@ exports.CACHE_SEED_TOKENS = {
         WETH: util_1.WRAPPED_NATIVE_CURRENCY[util_1.ChainId.MANTA],
         USDC: token_provider_1.USDC_MANTA,
         USDT: token_provider_1.USDT_MANTA,
+        CERUS: token_provider_1.CERUS_MANTA,
     },
     [util_1.ChainId.MANTA_TESTNET]: {
         USDC: token_provider_1.USDC_MANTA_TESTNET,
@@ -39,10 +40,10 @@ exports.CACHE_SEED_TOKENS = {
  * @class CachingTokenProviderWithFallback
  */
 class CachingTokenProviderWithFallback {
-    constructor(chainId, 
-    // Token metadata (e.g. symbol and decimals) don't change so can be cached indefinitely.
-    // Constructing a new token object is slow as sdk-core does checksumming.
-    tokenCache, primaryTokenProvider, fallbackTokenProvider) {
+    constructor(chainId,
+        // Token metadata (e.g. symbol and decimals) don't change so can be cached indefinitely.
+        // Constructing a new token object is slow as sdk-core does checksumming.
+        tokenCache, primaryTokenProvider, fallbackTokenProvider) {
         this.chainId = chainId;
         this.tokenCache = tokenCache;
         this.primaryTokenProvider = primaryTokenProvider;

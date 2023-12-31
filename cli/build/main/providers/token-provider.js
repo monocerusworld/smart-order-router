@@ -16,6 +16,13 @@ exports.USDC_MANTA_TESTNET = new sdk_core_1.Token(util_1.ChainId.MANTA_TESTNET, 
 exports.USDT_MANTA_TESTNET = new sdk_core_1.Token(util_1.ChainId.MANTA_TESTNET, '0xC5a38c67077B713d6f28097B3C10Cc7Cdd3433F9', 6, 'USDT', 'Tether USD');
 exports.WMANTA_MANTA_TESTNET = new sdk_core_1.Token(util_1.ChainId.MANTA_TESTNET, '0x226E0D9fBDE51708fC36Bb4E5d1af9728A285cF4', 18, 'WMANTA', 'Wrapped MANTA');
 // Manta Tokens
+exports.CERUS_MANTA = new sdk_core_1.Token(
+    util_1.ChainId.MANTA,
+    '0x657218E3535B32EDef9a722E35dcd6EA40E1202e',
+    18,
+    'CERUS',
+    'Monocerus'
+);
 exports.USDT_MANTA = new sdk_core_1.Token(util_1.ChainId.MANTA, '0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7', 6, 'USDT', 'TetherToken');
 exports.USDC_MANTA = new sdk_core_1.Token(util_1.ChainId.MANTA, '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E', 6, 'USDC', 'USD Coin');
 class TokenProvider {

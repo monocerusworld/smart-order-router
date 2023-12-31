@@ -7,6 +7,7 @@ import {
   USDC_MANTA,
   USDC_MANTA_TESTNET,
   USDT_MAINNET,
+  CERUS_MANTA,
   USDT_MANTA,
   USDT_MANTA_TESTNET,
 } from '../../providers/token-provider';
@@ -32,7 +33,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST = (
     [ChainId.MANTA]: [
       WRAPPED_NATIVE_CURRENCY[ChainId.MANTA]!,
       USDC_MANTA,
-      USDT_MANTA,],
+      USDT_MANTA, CERUS_MANTA],
   };
 };
 

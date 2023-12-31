@@ -2,7 +2,7 @@
 import { Token } from '@uniswap/sdk-core';
 import _ from 'lodash';
 import { ChainId, log, WRAPPED_NATIVE_CURRENCY } from '../util';
-import { USDC_MAINNET, USDC_MANTA, USDC_MANTA_TESTNET, USDT_MAINNET, USDT_MANTA, USDT_MANTA_TESTNET, } from './token-provider';
+import { CERUS_MANTA, USDC_MAINNET, USDC_MANTA, USDC_MANTA_TESTNET, USDT_MAINNET, USDT_MANTA, CERUS_MANTA, USDT_MANTA_TESTNET, } from './token-provider';
 // These tokens will added to the Token cache on initialization.
 export const CACHE_SEED_TOKENS = {
     [ChainId.MAINNET]: {
@@ -18,6 +18,7 @@ export const CACHE_SEED_TOKENS = {
         WETH: WRAPPED_NATIVE_CURRENCY[ChainId.MANTA],
         USDC: USDC_MANTA,
         USDT: USDT_MANTA,
+        CERUS: CERUS_MANTA
     },
     [ChainId.MANTA_TESTNET]: {
         USDC: USDC_MANTA_TESTNET,
@@ -33,10 +34,10 @@ export const CACHE_SEED_TOKENS = {
  * @class CachingTokenProviderWithFallback
  */
 export class CachingTokenProviderWithFallback {
-    constructor(chainId, 
-    // Token metadata (e.g. symbol and decimals) don't change so can be cached indefinitely.
-    // Constructing a new token object is slow as sdk-core does checksumming.
-    tokenCache, primaryTokenProvider, fallbackTokenProvider) {
+    constructor(chainId,
+        // Token metadata (e.g. symbol and decimals) don't change so can be cached indefinitely.
+        // Constructing a new token object is slow as sdk-core does checksumming.
+        tokenCache, primaryTokenProvider, fallbackTokenProvider) {
         this.chainId = chainId;
         this.tokenCache = tokenCache;
         this.primaryTokenProvider = primaryTokenProvider;

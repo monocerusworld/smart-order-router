@@ -1,9 +1,9 @@
-import { USDC_MAINNET, USDC_MANTA, USDC_MANTA_TESTNET, USDT_MAINNET, USDT_MANTA, USDT_MANTA_TESTNET, } from '../../../providers/token-provider';
+import { USDC_MAINNET, USDC_MANTA, USDC_MANTA_TESTNET, USDT_MAINNET, USDT_MANTA, CERUS_MANTA, USDT_MANTA_TESTNET, } from '../../../providers/token-provider';
 import { ChainId } from '../../../util/chains';
 export const usdGasTokensByChain = {
     [ChainId.MAINNET]: [USDC_MAINNET, USDT_MAINNET],
     [ChainId.MANTA_TESTNET]: [USDC_MANTA_TESTNET, USDT_MANTA_TESTNET],
-    [ChainId.MANTA]: [USDC_MANTA, USDT_MANTA],
+    [ChainId.MANTA]: [USDC_MANTA, USDT_MANTA, CERUS_MANTA],
 };
 /**
  * Factory for building gas models that can be used with any route to generate

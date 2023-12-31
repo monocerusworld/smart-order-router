@@ -75,6 +75,13 @@ export const WMANTA_MANTA_TESTNET = new Token(
 );
 
 // Manta Tokens
+export const CERUS_MANTA = new Token(
+  ChainId.MANTA,
+  '0x657218E3535B32EDef9a722E35dcd6EA40E1202e',
+  18,
+  'CERUS',
+  'Monocerus'
+);
 export const USDT_MANTA = new Token(
   ChainId.MANTA,
   '0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7',

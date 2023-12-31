@@ -15,6 +15,7 @@ import {
   USDC_MANTA,
   USDC_MANTA_TESTNET,
   USDT_MAINNET,
+  CERUS_MANTA,
   USDT_MANTA,
   USDT_MANTA_TESTNET,
   WMANTA_MANTA_TESTNET,
@@ -106,7 +107,7 @@ const baseTokensByChain: { [chainId in ChainId]?: Token[] } = {
     USDT_MANTA_TESTNET,
     WMANTA_MANTA_TESTNET,
   ],
-  [ChainId.MANTA]: [USDC_MANTA, USDT_MANTA],
+  [ChainId.MANTA]: [USDC_MANTA, USDT_MANTA, CERUS_MANTA],
 };
 
 export async function getV3CandidatePools({

@@ -6,12 +6,14 @@ import { ChainId, log, WRAPPED_NATIVE_CURRENCY } from '../util';
 
 import { ICache } from './cache';
 import {
+  CERUS_MANTA,
   ITokenProvider,
   TokenAccessor,
   USDC_MAINNET,
   USDC_MANTA,
   USDC_MANTA_TESTNET,
   USDT_MAINNET,
+  CERUS_MANTA,
   USDT_MANTA,
   USDT_MANTA_TESTNET,
 } from './token-provider';
@@ -39,6 +41,7 @@ export const CACHE_SEED_TOKENS: {
     WETH: WRAPPED_NATIVE_CURRENCY[ChainId.MANTA],
     USDC: USDC_MANTA,
     USDT: USDT_MANTA,
+    CERUS: CERUS_MANTA
   },
   [ChainId.MANTA_TESTNET]: {
     USDC: USDC_MANTA_TESTNET,
